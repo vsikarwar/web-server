@@ -1,8 +1,11 @@
 package com.viks.http.socket;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -12,12 +15,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.viks.http.request.RequestHandler;
-
-
 public class SocketServer extends Thread{
 	
-    private final ThreadPoolExecutor threadPool;
+    protected final ThreadPoolExecutor threadPool;
     private final int port;
     private final ThreadGroup threadGroup;
     private final int socketBufferSize;
@@ -91,18 +91,61 @@ public class SocketServer extends Thread{
 			
 			while(!isInterrupted() && !serverSocket.isClosed()) {
 				System.out.println("Socket accepting connections : ");
-				final Socket socket = serverSocket.accept();
-				System.out.println("Socket accepting connections : " + socket.getRemoteSocketAddress());
-				//configure socket
-				long sessionId = this.sessionIdSequence.getAndIncrement();
-				this.threadPool.execute(new SocketServerSession(activeSessions,
-                        socket,
-                        sessionId));
-				System.out.println("POOL SIZE : " + threadPool.getPoolSize());
+				try {
+					final Socket socket = serverSocket.accept();
+					System.out.println("Socket accepting connections : " + socket.getRemoteSocketAddress());
+					//configure socket
+					long sessionId = this.sessionIdSequence.getAndIncrement();
+					this.threadPool.execute(new SocketServerSession(activeSessions,
+	                        socket,
+	                        sessionId));
+					System.out.println("POOL SIZE : " + threadPool.getPoolSize());
+				}catch(SocketException se) {
+					se.printStackTrace();
+				}
+				
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void shutdown() {
+        System.out.println("Shutting down socket server (" + serverName + ").");
+
+        // first shut down the acceptor to stop new connections
+        interrupt();
+        try {
+            if(!serverSocket.isClosed())
+                serverSocket.close();
+        } catch(IOException e) {
+            //logger.error("Error while closing socket server: " + e.getMessage());
+        }
+
+        // now kill all the active sessions
+        threadPool.shutdownNow();
+        killActiveSessions();
+
+        try {
+            boolean completed = threadPool.awaitTermination(5, TimeUnit.SECONDS);
+            if(!completed) {}
+                //logger.warn("Timed out waiting for threadpool to close.");
+        } catch(InterruptedException e) {
+            //logger.warn("Interrupted while waiting for socket server shutdown to complete: ", e);
+        }
+    }
+	
+	public void killActiveSessions() {
+        // loop through and close the socket of all the active sessions
+        //logger.info("Killing all active sessions.");
+        for(Map.Entry<Long, SocketServerSession> entry: activeSessions.entrySet()) {
+            try {
+                //logger.debug("Closing session " + entry.getKey());
+                entry.getValue().close();
+            } catch(IOException e) {
+                //logger.warn("Error while closing session socket: ", e);
+            }
+        }
+    }
 
 }

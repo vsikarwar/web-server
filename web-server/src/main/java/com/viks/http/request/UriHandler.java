@@ -2,6 +2,7 @@ package com.viks.http.request;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class UriHandler {
 	
@@ -36,9 +37,10 @@ public class UriHandler {
 		
 		if(pathStr.contains("?")) {
 			hasQueryString = true;
-			String[] splitPathWithParams = pathStr.split("?");
-			path = splitPathWithParams[0];
-			parseParams(params, splitPathWithParams[1]);
+			StringTokenizer tokenizer = new StringTokenizer(pathStr, "?");
+			//String[] splitPathWithParams = pathStr.("?");
+			path = tokenizer.nextToken();
+			parseParams(params, tokenizer.nextToken());
 		}
 		
 		uri.setPath(path);

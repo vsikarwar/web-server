@@ -61,4 +61,13 @@ public class HttpHeaders{
 	public void remove(String name, String value) {
 		this.headers.get(name).remove(value);
 	}
+	
+	public String get(String name) {
+		System.out.println("looking for.. " + name);
+		return this.headers.get(name).get(0);
+	}
+	
+	public String toString() {
+		return this.headers.toString();
+	}
 }

@@ -1,0 +1,12 @@
+[
+	{
+		"source" : "/",
+		"destination" : "/index.html",
+		"redirect" : "301"
+	},
+	{
+		"source" : "/abc",
+		"destination" : "/xyz.html",
+		"redirect" : "302"
+	}
+]

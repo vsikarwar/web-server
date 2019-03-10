@@ -4,6 +4,8 @@ public class HttpMethod {
 	
 	private String method;
 	
+	public HttpMethod() {}
+	
 	public HttpMethod(String method) {
 		this.method = method;
 	}

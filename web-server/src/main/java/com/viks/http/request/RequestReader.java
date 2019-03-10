@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 import com.viks.http.header.HttpHeaders;
@@ -14,15 +13,12 @@ import com.viks.http.version.VersionHandler;
 public class RequestReader {
 	
 	private InputStream inputStream;
-	private RequestParser parser;
 	
 	public RequestReader(InputStream inputStream) {
 		this.inputStream = inputStream;
-		this.parser = new RequestParser();
 	}
 	
-	public Request read() {
-		Request req = new Request();
+	public void read(Request req) {
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
 		
 		try {
@@ -33,7 +29,6 @@ public class RequestReader {
 			e.printStackTrace();
 		}
 		
-		return req;
 	}
 	
 	private void parseRequestLine(Request request, String input) {

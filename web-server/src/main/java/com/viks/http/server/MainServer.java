@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.viks.http.main.service.AbstractService;
 import com.viks.http.main.service.MainService;
-import com.viks.http.socket.HTTPServer;
 import com.viks.http.socket.SocketService;
 
 public class MainServer extends AbstractService{
@@ -13,6 +12,7 @@ public class MainServer extends AbstractService{
 	//TODO: add loggers
 	
     private final List<MainService> basicServices;
+    private final ServerConfig configs = ServerConfig.getInstance();
     
     public MainServer() {
     	basicServices = createBasicServices();
@@ -47,7 +47,7 @@ public class MainServer extends AbstractService{
 	private List<MainService> createBasicServices(){
         List<MainService> services = new ArrayList<MainService>();
         
-        SocketService socketService = new SocketService();
+        SocketService socketService = new SocketService(configs);
         services.add(socketService);
         
         //add socket service

@@ -2,17 +2,18 @@ package com.viks.http.socket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
 
-import com.viks.http.processor.GenericProcessor;
-import com.viks.http.processor.Processor;
+import com.viks.http.header.Headers;
+import com.viks.http.processors.RequestHandler;
 import com.viks.http.request.Request;
-import com.viks.http.request.RequestHandler;
+import com.viks.http.request.RequestReader;
 import com.viks.http.response.Response;
-import com.viks.http.response.ResponseHandler;
+import com.viks.http.response.ResponseWriter;
 
 public class SocketServerSession implements Runnable{
 	
@@ -20,9 +21,6 @@ public class SocketServerSession implements Runnable{
     private final long sessionId;
     private final Socket socket;
     private volatile boolean isClosed = false;
-    
-    private final ResponseHandler responseHandler = ResponseHandler.getInstance();
-    private final RequestHandler requestHandler = RequestHandler.getInstance();
     
     
     public SocketServerSession(Map<Long, SocketServerSession> activeSessions,
@@ -46,6 +44,7 @@ public class SocketServerSession implements Runnable{
 	public void run() {
 		BufferedReader in = null;
 		OutputStream outputStream = null;
+		InputStream inputStream = null;
 		
 		System.out.println("Inside socket server session");
 		try {
@@ -53,6 +52,8 @@ public class SocketServerSession implements Runnable{
 			System.out.println(activeSessions.keySet());
 			
 			System.out.println(socket.getRemoteSocketAddress());
+			
+			inputStream = socket.getInputStream();
 			
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
@@ -66,18 +67,23 @@ public class SocketServerSession implements Runnable{
 					Request request = new Request();
 					Response response = new Response();
 					
-					requestHandler.handle(request, in);
-					Processor processor = new GenericProcessor();
-					processor.process(request, response);
-	
-					responseHandler.handle(response, outputStream);	
+					RequestReader requestReader = new RequestReader(inputStream);
+					ResponseWriter responseWriter = new ResponseWriter(outputStream);
 					
-					if(!response.isKeepAlive()) {
-						close();
-					}else {
+					requestReader.read(request);
+					
+					RequestHandler handler = new RequestHandler();
+					handler.handle(request, response);
+					
+					responseWriter.write(response);
+	
+					if(null != response.getHeaders().get(Headers.CONNECTION.getName()) &&
+							("keep-alive").equals(response.getHeaders().get(Headers.CONNECTION.getName()))) {
 						socket.setKeepAlive(true);
 						socket.setSoTimeout(6000);
 						System.out.println("******Setting timeout");
+					}else {
+						close();
 					}
 					
 					outputStream.flush();

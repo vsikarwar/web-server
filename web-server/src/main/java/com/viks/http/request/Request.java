@@ -12,6 +12,11 @@ public class Request {
 	private HttpCookies cookies;
 	
 	public Request() {
+		version = new HttpVersion();
+		method = new HttpMethod();
+		uri = new HttpUri();
+		headers = new HttpHeaders();
+		cookies = new HttpCookies();
 	}
 
 	public HttpVersion getVersion() {

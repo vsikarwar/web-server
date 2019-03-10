@@ -5,6 +5,8 @@ public class HttpVersion implements Comparable<HttpVersion>{
 	private int minorVersion;
 	private int majorVersion;
 	
+	public HttpVersion() {}
+	
 	public HttpVersion(int minor, int major) {
 		this.minorVersion = minor;
 		this.majorVersion = major;
