@@ -1,10 +1,10 @@
 package com.viks.http.processors;
 
-import com.viks.http.request.Request;
-import com.viks.http.response.Response;
+import com.viks.http.message.request.HttpRequest;
+import com.viks.http.message.response.HttpResponse;
 
 public interface Processor {
 	
-	public void process(Request req, Response res);
+	public void process(HttpRequest req, HttpResponse res);
 
 }

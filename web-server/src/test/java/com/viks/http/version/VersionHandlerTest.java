@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.viks.http.message.HttpVersion;
+
 public class VersionHandlerTest {
 	
 	VersionHandler handler;

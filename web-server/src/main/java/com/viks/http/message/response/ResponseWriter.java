@@ -1,4 +1,4 @@
-package com.viks.http.response;
+package com.viks.http.message.response;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -22,16 +22,21 @@ public class ResponseWriter {
 		}
 	}
 	
-	public void write(Response res) {
+	public void write(HttpResponse res) {
 		try {
 			System.out.println("Response : " + res.toString());
 			osw.write(res.toString());
+			osw.flush();
+			if(res.getContent().getContent() != null) {
+				os.write(res.getContent().getContent());
+				os.flush();
+			}
+			
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
 		
 		try {
-			osw.flush();
 			outputStream.flush();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.viks.http.header;
+package com.viks.http.message;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,27 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpHeaders{
+
+	public enum Headers{
+		CONNECTION("Connection"),
+		CONTENT_LENGTH("Content-Length"),
+		KEEP_ALIVE("Keep-Alive"),
+		CONTENT_TYPE("Content-type"),
+		DATE("Date"),
+		SERVER("Server"),
+		ACCEPT("Accept"),
+		LOCATION("Location");
+		
+		private final String name;
+		
+		Headers(String name) {
+			this.name= name;
+		}
+		
+		public String getName() {
+			return name;
+		}
+	}
 
 	class HeaderMap extends HashMap<String, List<String>>{
 		private static final long serialVersionUID = 1L;
@@ -17,7 +38,7 @@ public class HttpHeaders{
             for(Object key: this.keySet()) {
                 builder.append(key.toString() + ": " + String.join(",", this.get(key)) + "\n");
             }
-            return builder.toString();
+            return builder.toString().trim();
         }
 	};
 	
@@ -53,6 +74,21 @@ public class HttpHeaders{
 		this.headers.get(name).add(value);
 	}
 	
+	public void put(String headerLine) {
+		String[] items = headerLine.split(":");
+		String key = items[0];
+		String value = "";
+		if(items.length == 2) {
+			value = items[1];
+		}else {
+			for(int i = 1; i<items.length; i++) {
+				value += items[i];
+			}
+		}
+		String[] values = value.trim().split(",");
+		add(key, values);
+	}
+	
 	public void add(String name, String[] values) {
 		this.add(name);
 		Collections.addAll(this.headers.get(name), values);
@@ -63,8 +99,11 @@ public class HttpHeaders{
 	}
 	
 	public String get(String name) {
-		System.out.println("looking for.. " + name);
 		return this.headers.get(name).get(0);
+	}
+	
+	public List<String> getAll(String name) {
+		return this.headers.get(name);
 	}
 	
 	public String toString() {

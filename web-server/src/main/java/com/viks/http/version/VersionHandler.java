@@ -3,6 +3,8 @@ package com.viks.http.version;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.viks.http.message.HttpVersion;
+
 public class VersionHandler {
 	
 	private static final List<HttpVersion> supportedVersions = new ArrayList<HttpVersion>();

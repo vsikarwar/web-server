@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.viks.http.server.ServerConfig;
+import com.viks.http.config.ConfigService;
 
 public class SocketServiceTest {
 	
@@ -14,7 +14,7 @@ public class SocketServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		service = new SocketService(ServerConfig.getInstance());
+		service = new SocketService(ConfigService.getInstance());
 	}
 
 	@After

@@ -5,9 +5,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class AbstractService implements MainService{
 	
     private final AtomicBoolean isStarted;
+    private String type;
 
     public AbstractService() {
     	this.isStarted = new AtomicBoolean(false);
+    }
+    
+    public AbstractService(String type) {
+    	this();
+    	this.type = type;
+    }
+    
+    public String getType() {
+    	return this.type;
     }
 
 	public void start() {

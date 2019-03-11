@@ -1,0 +1,30 @@
+2019-03-11 08:57:05 DEBUG SocketService:27 - This is debug message
+2019-03-11 08:57:05 INFO  SocketService:28 - this is infor messsage
+2019-03-11 08:57:44 INFO  SocketService:28 - this is infor messsage
+2019-03-11 09:09:42 INFO  MainServer:70 - Starting server .. WS-0.1
+2019-03-11 09:09:42 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:09:42 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 09:48:40 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:48:40 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:48:40 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 09:50:06 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:50:06 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:50:06 INFO  MainServer:38 - Startup completed in 0 ms.
+2019-03-11 09:51:42 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:51:42 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:51:42 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 09:57:05 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:57:05 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:57:05 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 09:58:43 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:58:44 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:58:44 INFO  MainServer:38 - Startup completed in 0 ms.
+2019-03-11 09:59:45 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 09:59:45 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 09:59:45 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 10:00:51 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 10:00:51 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 10:00:51 INFO  MainServer:38 - Startup completed in 1 ms.
+2019-03-11 10:01:33 INFO  MainServer:69 - Starting server .. WS-0.1
+2019-03-11 10:01:33 INFO  SocketService:28 - Starting Service .. Socket-Service
+2019-03-11 10:01:33 INFO  MainServer:38 - Startup completed in 0 ms.

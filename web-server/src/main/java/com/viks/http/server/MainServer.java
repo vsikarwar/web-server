@@ -1,18 +1,23 @@
 package com.viks.http.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.viks.http.config.ConfigService;
+import com.viks.http.config.ConfigService.Configs;
 import com.viks.http.main.service.AbstractService;
 import com.viks.http.main.service.MainService;
 import com.viks.http.socket.SocketService;
 
 public class MainServer extends AbstractService{
 	
-	//TODO: add loggers
+	private final static Logger logger = Logger.getLogger(MainServer.class);
 	
     private final List<MainService> basicServices;
-    private final ServerConfig configs = ServerConfig.getInstance();
+    private final static ConfigService config = ConfigService.getInstance();
     
     public MainServer() {
     	basicServices = createBasicServices();
@@ -21,25 +26,26 @@ public class MainServer extends AbstractService{
 
 	@Override
 	protected void startInnerService() {
+		
 		long start = System.currentTimeMillis();
 		
 		for(MainService service : basicServices) {
 			service.start();
 		}
 		
-		
 		long end = System.currentTimeMillis();
 		
-		System.out.println("Startup completed in " + (end - start) + " ms.");
-		
-		//HTTPServer.startServer();
+		logger.info("Startup completed in " + (end - start) + " ms.");
 		
 	}
 
 	@Override
 	protected void stopInnerService() {
-		// TODO Auto-generated method stub
 		System.out.println("Stopping inner services");
+		
+		for(int i = basicServices.size()-1; i>0; i--) {
+			basicServices.get(i).stop();
+		}
 		
 	}
 	
@@ -47,39 +53,33 @@ public class MainServer extends AbstractService{
 	private List<MainService> createBasicServices(){
         List<MainService> services = new ArrayList<MainService>();
         
-        SocketService socketService = new SocketService(configs);
+        SocketService socketService = new SocketService(config);
         services.add(socketService);
         
         //add socket service
         //add jmx service
-        // add File handler service
         
         //TODO: create immutable list
-        return services;
+        return Collections.unmodifiableList(services);
 
 	}
 	
 	public static  void main(String[] args) {
-		//TODO: load config
-		
-		//Map config = ServerConfig.defaultConfig;
+		String serverName = config.getStr(Configs.SERVER_NAME.config());
+		logger.info("Starting server .. " + serverName);
 		
         final MainServer server = new MainServer();
         
         if(!server.isStarted())
             server.start();
         
-        // add a shutdown hook to stop the server
         Runtime.getRuntime().addShutdownHook(new Thread() {
-
             @Override
             public void run() {
                 if (server.isStarted())
                     server.stop();
             }
         });
-
-		
 		
 	}
 

@@ -7,15 +7,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.viks.http.server.ServerConfig.ServerConfigs;
+import com.viks.http.config.ConfigService;
+import com.viks.http.config.ConfigService.Configs;
 
 public class ServerConfigTest {
 	
-	ServerConfig config;
+	ConfigService config;
 
 	@Before
 	public void setUp() throws Exception {
-		config = ServerConfig.getInstance();
+		config = ConfigService.getInstance();
 	}
 
 	@After
@@ -24,10 +25,10 @@ public class ServerConfigTest {
 
 	@Test
 	public void testGet() {
-		Integer port = config.getInt(ServerConfigs.PORT.config());
+		Integer port = config.getInt(Configs.PORT.config());
 		assertNotNull(port);
 		
-		String serverName = config.getStr(ServerConfigs.SERVER_NAME.config());
+		String serverName = config.getStr(Configs.SERVER_NAME.config());
 		assertEquals(serverName, "WS-0.1");
 	}
 

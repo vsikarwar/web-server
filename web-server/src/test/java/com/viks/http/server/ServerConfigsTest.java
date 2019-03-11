@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.viks.http.server.ServerConfig.ServerConfigs;
+import com.viks.http.config.ConfigService.Configs;
 
 public class ServerConfigsTest {
 
@@ -20,11 +20,11 @@ public class ServerConfigsTest {
 
 	@Test
 	public void test() {
-		assertEquals("port", ServerConfigs.PORT.config());
-		assertEquals("default.threads", ServerConfigs.DEFAULT_THREADS.config());
-		assertEquals("max.threads", ServerConfigs.MAX_THREADS.config());
-		assertEquals("socket.buff.size", ServerConfigs.SOCKET_BUFFER_SIZE.config());
-		assertEquals("server.name", ServerConfigs.SERVER_NAME.config());
+		assertEquals("port", Configs.PORT.config());
+		assertEquals("default.threads", Configs.DEFAULT_THREADS.config());
+		assertEquals("max.threads", Configs.MAX_THREADS.config());
+		assertEquals("socket.buff.size", Configs.SOCKET_BUFFER_SIZE.config());
+		assertEquals("server.name", Configs.SERVER_NAME.config());
 		
 	}
 

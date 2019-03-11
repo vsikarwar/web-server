@@ -4,21 +4,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.viks.http.server.ServerConfig;
-import com.viks.http.server.ServerConfig.ServerConfigs;
+import com.viks.http.config.ConfigService;
+import com.viks.http.config.ConfigService.Configs;
 
 public class SocketServerTest {
 	
 	SocketServer server;
-	ServerConfig conf = ServerConfig.getInstance();
+	ConfigService conf = ConfigService.getInstance();
 
 	@Before
 	public void setUp() throws Exception {
-		server = new SocketServer(this.conf.getInt(ServerConfigs.PORT.config()), 
-				this.conf.getInt(ServerConfigs.DEFAULT_THREADS.config()), 
-				this.conf.getInt(ServerConfigs.MAX_THREADS.config()), 
-				this.conf.getInt(ServerConfigs.SOCKET_BUFFER_SIZE.config()), 
-				this.conf.getStr(ServerConfigs.SERVER_NAME.config()));
+		server = new SocketServer(this.conf.getInt(Configs.PORT.config()), 
+				this.conf.getInt(Configs.DEFAULT_THREADS.config()), 
+				this.conf.getInt(Configs.MAX_THREADS.config()), 
+				this.conf.getInt(Configs.SOCKET_BUFFER_SIZE.config()), 
+				this.conf.getStr(Configs.SERVER_NAME.config()));
 	}
 
 	@After

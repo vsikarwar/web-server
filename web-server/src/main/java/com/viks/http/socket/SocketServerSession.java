@@ -8,12 +8,13 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
 
-import com.viks.http.header.Headers;
-import com.viks.http.processors.RequestHandler;
-import com.viks.http.request.Request;
-import com.viks.http.request.RequestReader;
-import com.viks.http.response.Response;
-import com.viks.http.response.ResponseWriter;
+import com.viks.http.message.HttpHeaders.Headers;
+import com.viks.http.message.request.HttpRequest;
+import com.viks.http.message.request.RequestReader;
+import com.viks.http.message.response.HttpResponse;
+import com.viks.http.message.response.ResponseWriter;
+import com.viks.http.processors.GenericProcessor;
+import com.viks.http.processors.Processor;
 
 public class SocketServerSession implements Runnable{
 	
@@ -64,16 +65,15 @@ public class SocketServerSession implements Runnable{
 			while(!isInterrupted() && !socket.isClosed() && !isClosed) {
 				
 				if(in.ready()) {
-					Request request = new Request();
-					Response response = new Response();
+					HttpResponse response = new HttpResponse();
 					
 					RequestReader requestReader = new RequestReader(inputStream);
 					ResponseWriter responseWriter = new ResponseWriter(outputStream);
 					
-					requestReader.read(request);
+					HttpRequest request = requestReader.readRequest();
 					
-					RequestHandler handler = new RequestHandler();
-					handler.handle(request, response);
+					Processor processor = new GenericProcessor();
+					processor.process(request, response);
 					
 					responseWriter.write(response);
 	
@@ -110,7 +110,6 @@ public class SocketServerSession implements Runnable{
 	
 	public void close() throws IOException {
         this.isClosed = true;
-        //this.socket.close();
     }
 
 }

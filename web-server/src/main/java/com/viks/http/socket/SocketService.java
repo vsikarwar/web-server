@@ -1,31 +1,37 @@
 package com.viks.http.socket;
 
+import org.apache.log4j.Logger;
+
+import com.viks.http.config.ConfigService;
+import com.viks.http.config.ConfigService.Configs;
 import com.viks.http.main.service.AbstractService;
-import com.viks.http.server.ServerConfig;
-import com.viks.http.server.ServerConfig.ServerConfigs;
 
 public class SocketService extends AbstractService{
 	
-	private final SocketServer server;
-	private final ServerConfig conf;
+	private static final Logger logger = Logger.getLogger(SocketService.class);
 	
-	public SocketService(ServerConfig conf) {
+	private final SocketServer server;
+	private final ConfigService conf;
+	
+	public SocketService(ConfigService conf) {
+		super("Socket-Service");
 		this.conf = conf;
-		this.server = new SocketServer(this.conf.getInt(ServerConfigs.PORT.config()), 
-				this.conf.getInt(ServerConfigs.DEFAULT_THREADS.config()), 
-				this.conf.getInt(ServerConfigs.MAX_THREADS.config()), 
-				this.conf.getInt(ServerConfigs.SOCKET_BUFFER_SIZE.config()), 
-				this.conf.getStr(ServerConfigs.SERVER_NAME.config()));
+		this.server = new SocketServer(this.conf.getInt(Configs.PORT.config()), 
+				this.conf.getInt(Configs.DEFAULT_THREADS.config()), 
+				this.conf.getInt(Configs.MAX_THREADS.config()), 
+				this.conf.getInt(Configs.SOCKET_BUFFER_SIZE.config()), 
+				this.conf.getStr(Configs.SERVER_NAME.config()));
 	}
 
 	@Override
 	protected void startInnerService() {
+		logger.info("Starting Service .. " + this.getType());
 		this.server.start();
 	}
 
 	@Override
 	protected void stopInnerService() {
-		System.out.println("Shutting down server socket");
+		logger.info("Shutting down .. " + this.getType());
 		server.shutdown();
 		
 	}

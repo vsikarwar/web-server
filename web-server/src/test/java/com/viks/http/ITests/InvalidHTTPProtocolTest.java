@@ -14,7 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.viks.http.server.ServerConfig;
+import com.viks.http.config.ConfigService;
 import com.viks.http.socket.SocketService;
 
 public class InvalidHTTPProtocolTest {
@@ -24,7 +24,7 @@ public class InvalidHTTPProtocolTest {
 	@Before
 	public void setUp() {
 		try {
-			service = new SocketService(ServerConfig.getInstance());
+			service = new SocketService(ConfigService.getInstance());
 			service.start();
 		}catch(Exception e) {
 			

@@ -1,4 +1,4 @@
-package com.viks.http.response;
+package com.viks.http.message.response;
 
 public enum HttpStatus {
 	
@@ -20,7 +20,7 @@ public enum HttpStatus {
 	//Redirection
 	MULTIPLE_CHOICES(300, "Multiple Choices"),
 	MOVED_PERMANENTLY(301, "Moved Permanently"),
-	FOUND(302, "Found"),
+	MOVED_TEMPORARILY(302, "Moved Temporarily"),
 	SEE_OTHER(303, "See Other"),
 	NOT_MODIFIED(304, "Not Modified"),
 	USE_PROXY(305, "Use Proxy"),

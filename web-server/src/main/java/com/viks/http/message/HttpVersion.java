@@ -1,6 +1,16 @@
-package com.viks.http.version;
+package com.viks.http.message;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpVersion implements Comparable<HttpVersion>{
+	
+	private static final List<String> supportedVersions = new ArrayList<String>();
+	
+	static {
+		supportedVersions.add("HTTP/1.0");
+		supportedVersions.add("HTTP/1.1");
+	}
 	
 	private int minorVersion;
 	private int majorVersion;
@@ -26,6 +36,13 @@ public class HttpVersion implements Comparable<HttpVersion>{
 
 	public void setMajorVersion(int majorVersion) {
 		this.majorVersion = majorVersion;
+	}
+	
+	public boolean isValid() {
+		if(supportedVersions.contains(this.toString())) {
+			return true;
+		}
+		return false;
 	}
 
 	public int compareTo(HttpVersion o) {

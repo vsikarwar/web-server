@@ -1,4 +1,4 @@
-package com.viks.http.server;
+package com.viks.http.config;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,9 +11,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class ServerConfig implements Serializable{
+public class ConfigService implements Serializable{
 	
-	public enum ServerConfigs {
+	public enum Configs {
 		
 		PORT("port"),
 		DEFAULT_THREADS("default.threads"),
@@ -27,7 +27,7 @@ public class ServerConfig implements Serializable{
 		
 		private String conf;
 		
-		private ServerConfigs(String conf) {
+		private Configs(String conf) {
 			this.conf = conf;
 		}
 		
@@ -41,15 +41,15 @@ public class ServerConfig implements Serializable{
 
     private static final Map<String, String> configs = new HashMap<String, String>();
     
-    private static final ServerConfig INSTANCE = new ServerConfig();
+    private static final ConfigService INSTANCE = new ConfigService();
     
-    private ServerConfig() {
+    private ConfigService() {
     	
     	readConfigs();
     	
     }
     
-    public static ServerConfig getInstance() {
+    public static ConfigService getInstance() {
     	return INSTANCE;
     }
     
@@ -63,7 +63,7 @@ public class ServerConfig implements Serializable{
 			
 			JSONObject jsonObj = (JSONObject) obj;
 			
-			for(ServerConfigs config: ServerConfigs.values()) {
+			for(Configs config: Configs.values()) {
 				configs.put(config.config(), jsonObj.get(config.config()).toString());
 			}
 			
