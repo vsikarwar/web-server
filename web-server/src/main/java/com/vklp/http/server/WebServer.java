@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.vklp.http.config.Config;
 import com.vklp.http.handlers.FormHandler;
+import com.vklp.http.handlers.HandlerRegistry;
 import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.handlers.RequestHandlerBuilder;
 import com.vklp.ws.services.AbstractService;
@@ -29,7 +30,7 @@ public class WebServer extends AbstractService{
     
     public WebServer() {
     	this.conf = Config.getInstance();
-    	this.handler = buildHandler();
+    	this.handler = HandlerRegistry.getInstance().getHandler();
     	
     	this.basicServices = createBasicServices();
     }
@@ -58,13 +59,6 @@ public class WebServer extends AbstractService{
 			basicServices.get(i).stop();
 		}
 		
-	}
-	
-	private RequestHandler buildHandler() {
-		RequestHandlerBuilder builder = new RequestHandlerBuilder();
-		//customer handler can be registered
-		builder.addHandler("/form/result", new FormHandler());
-		return builder.build();
 	}
 	
 	private List<HTTPService> createBasicServices(){
