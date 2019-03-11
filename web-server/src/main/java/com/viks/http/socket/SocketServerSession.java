@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Map;
 
+import com.sun.media.jfxmedia.logging.Logger;
 import com.viks.http.message.HttpHeaders.Headers;
 import com.viks.http.message.request.HttpRequest;
 import com.viks.http.message.request.RequestReader;
@@ -63,36 +65,39 @@ public class SocketServerSession implements Runnable{
 			
 			
 			while(!isInterrupted() && !socket.isClosed() && !isClosed) {
+				HttpResponse response = new HttpResponse();
 				
-				if(in.ready()) {
-					HttpResponse response = new HttpResponse();
-					
-					RequestReader requestReader = new RequestReader(inputStream);
-					ResponseWriter responseWriter = new ResponseWriter(outputStream);
-					
-					HttpRequest request = requestReader.readRequest();
-					
+				RequestReader requestReader = new RequestReader(inputStream);
+				ResponseWriter responseWriter = new ResponseWriter(outputStream);
+				
+				HttpRequest request = requestReader.readRequest();
+				
+				if(request != null) {
 					Processor processor = new GenericProcessor();
 					processor.process(request, response);
 					
 					responseWriter.write(response);
-	
-					if(null != response.getHeaders().get(Headers.CONNECTION.getName()) &&
-							("keep-alive").equals(response.getHeaders().get(Headers.CONNECTION.getName()))) {
-						socket.setKeepAlive(true);
-						socket.setSoTimeout(6000);
-						System.out.println("******Setting timeout");
-					}else {
-						close();
-					}
-					
-					outputStream.flush();
 				}
+				
+
+				if(null != response.getHeaders().get(Headers.CONNECTION.getName()) &&
+						("keep-alive").equals(response.getHeaders().get(Headers.CONNECTION.getName()))) {
+					socket.setKeepAlive(true);
+					socket.setSoTimeout(6000);
+					System.out.println("******Setting timeout");
+				}else {
+					close();
+				}
+				
+				outputStream.flush();
 				
 			}
 			
 			
-		}catch(Exception e) {
+		}catch(SocketTimeoutException ste) {
+			System.out.println("Socket timeout exception occurred for " + this.sessionId);
+		}
+		catch(Exception e) {
 			e.printStackTrace();
 		}finally {
             try {

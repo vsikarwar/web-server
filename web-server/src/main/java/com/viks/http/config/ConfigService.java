@@ -16,6 +16,7 @@ public class ConfigService implements Serializable{
 	public enum Configs {
 		
 		PORT("port"),
+		SSL_PORT("ssl.port"),
 		DEFAULT_THREADS("default.threads"),
 		MAX_THREADS("max.threads"),
 		SOCKET_BUFFER_SIZE("socket.buff.size"),

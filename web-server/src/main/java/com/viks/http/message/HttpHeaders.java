@@ -99,7 +99,10 @@ public class HttpHeaders{
 	}
 	
 	public String get(String name) {
-		return this.headers.get(name).get(0);
+		if(this.headers.containsKey(name))
+			return this.headers.get(name).get(0);
+		else
+			return null;
 	}
 	
 	public List<String> getAll(String name) {

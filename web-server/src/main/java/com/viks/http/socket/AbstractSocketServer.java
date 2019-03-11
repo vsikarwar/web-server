@@ -15,16 +15,15 @@ import java.util.concurrent.atomic.AtomicLong;
 public class AbstractSocketServer extends Thread{
 	
 	protected final ThreadPoolExecutor threadPool;
-    private final int port;
-    private final ThreadGroup threadGroup;
-    private final int socketBufferSize;
-    private final int maxThreads;
-    //private final StatusManager statusManager;
-    private final AtomicLong sessionIdSequence;
-    private final ConcurrentMap<Long, SocketServerSession> activeSessions;
-    private final String serverName;
+    protected final int port;
+    protected final ThreadGroup threadGroup;
+    protected final int socketBufferSize;
+    protected final int maxThreads;
+    protected final AtomicLong sessionIdSequence;
+    protected final ConcurrentMap<Long, SocketServerSession> activeSessions;
+    protected final String serverName;
     
-    private ServerSocket serverSocket = null;
+    protected ServerSocket serverSocket = null;
     
     public AbstractSocketServer(int port,
             int defaultThreads,

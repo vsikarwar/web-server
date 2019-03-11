@@ -11,6 +11,7 @@ import com.viks.http.config.ConfigService.Configs;
 import com.viks.http.main.service.AbstractService;
 import com.viks.http.main.service.MainService;
 import com.viks.http.socket.SocketService;
+import com.viks.http.ssl.SSLService;
 
 public class MainServer extends AbstractService{
 	
@@ -49,17 +50,21 @@ public class MainServer extends AbstractService{
 		
 	}
 	
-	
 	private List<MainService> createBasicServices(){
         List<MainService> services = new ArrayList<MainService>();
         
+        //TODO: add jmx service
+        
+        //Socket service
         SocketService socketService = new SocketService(config);
         services.add(socketService);
         
-        //add socket service
-        //add jmx service
+        //SSL service
+        SSLService sslService = new SSLService();
+        services.add(sslService);
         
-        //TODO: create immutable list
+        //TODO: add web socket service
+        
         return Collections.unmodifiableList(services);
 
 	}

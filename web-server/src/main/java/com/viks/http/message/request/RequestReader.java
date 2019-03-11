@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
 import java.util.StringTokenizer;
 
 import com.viks.http.message.HttpHeaders;
@@ -21,10 +22,13 @@ public class RequestReader {
 		this.request = new HttpRequest();
 	}
 	
-	public HttpRequest readRequest() {
+	public HttpRequest readRequest() throws SocketTimeoutException {
 		BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
 		
-		readRequestLine(inputReader);
+		boolean isRequestLine = readRequestLine(inputReader);
+		if(!isRequestLine) {
+			return null;
+		}
 		readHeaders(inputReader);
 
 		if(request.getMethod().equals("POST")) {
@@ -53,13 +57,20 @@ public class RequestReader {
         request.getContent().setContent(body.toString().getBytes());
 	}
 	
-	private void readRequestLine(BufferedReader in) {
+	private boolean readRequestLine(BufferedReader in) throws SocketTimeoutException {
 		String requestLine=null;
 		try {
 			requestLine = in.readLine();
-		} catch (IOException e) {
+		} catch(SocketTimeoutException ste) {
+			throw ste;
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		if(requestLine == null) {
+			return false;
+		}
+		
 		StringTokenizer st = new StringTokenizer(requestLine);
 		
 		if(!st.hasMoreTokens()) {
@@ -83,6 +94,7 @@ public class RequestReader {
 		HttpVersion httpVersion = versionHandler.handle(version);
 		request.setVersion(httpVersion);
 		
+		return true;
 	}
 	
 	public void uriHandler(String pathStr) {
