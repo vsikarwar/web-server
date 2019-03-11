@@ -5,17 +5,23 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import com.vklp.http.config.Config;
+import com.vklp.http.config.Config.Configs;
+import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.session.ServerSession;
 
 public class SocketServer extends AbstractSocketServer{
 	
-	public SocketServer(int port,
-            int defaultThreads,
-            int maxThreads,
-            int socketBufferSize,
-            String serverName) {
-        super(port, defaultThreads, maxThreads, socketBufferSize, serverName);
-
+	private final RequestHandler handler;
+	
+	public SocketServer(Config conf, RequestHandler handler) {
+        super(conf.getInt(Configs.PORT.config()), 
+				conf.getInt(Configs.DEFAULT_THREADS.config()), 
+				conf.getInt(Configs.MAX_THREADS.config()), 
+				conf.getInt(Configs.SOCKET_BUFFER_SIZE.config()), 
+				conf.getStr(Configs.SERVER_NAME.config()));
+        
+        this.handler = handler;
 		
 	}
 	
@@ -37,7 +43,8 @@ public class SocketServer extends AbstractSocketServer{
 					long sessionId = this.sessionIdSequence.getAndIncrement();
 					this.threadPool.execute(new ServerSession(activeSessions,
 	                        socket,
-	                        sessionId));
+	                        sessionId,
+	                        handler));
 					System.out.println("POOL SIZE : " + threadPool.getPoolSize());
 				}catch(SocketException se) {
 					se.printStackTrace();

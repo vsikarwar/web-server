@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vklp.http.config.ConfigService.Configs;
+import com.vklp.http.config.Config.Configs;
 
 public class ServerConfigsTest {
 

@@ -13,18 +13,25 @@ import javax.net.ssl.TrustManagerFactory;
 
 import org.apache.log4j.Logger;
 
+import com.vklp.http.config.Config;
+import com.vklp.http.config.Config.Configs;
+import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.session.ServerSession;
 
 public class SSLServer extends AbstractSocketServer{
 	
 	public static final Logger logger = Logger.getLogger(SSLServer.class);
+	
+	private final RequestHandler handler;
 
-	public SSLServer(int port,
-            int defaultThreads,
-            int maxThreads,
-            int socketBufferSize,
-            String serverName) {
-        super(port, defaultThreads, maxThreads, socketBufferSize, serverName);
+	public SSLServer(Config conf, RequestHandler handler) {
+		super(conf.getInt(Configs.SSL_PORT.config()), 
+				conf.getInt(Configs.DEFAULT_THREADS.config()), 
+				conf.getInt(Configs.MAX_THREADS.config()), 
+				conf.getInt(Configs.SOCKET_BUFFER_SIZE.config()), 
+				conf.getStr(Configs.SERVER_NAME.config()));
+		
+		this.handler = handler;
 		
 	}
 	
@@ -61,7 +68,8 @@ public class SSLServer extends AbstractSocketServer{
 					long sessionId = this.sessionIdSequence.getAndIncrement();
 					this.threadPool.execute(new ServerSession(activeSessions,
 	                        socket,
-	                        sessionId));
+	                        sessionId,
+	                        handler));
 					System.out.println("POOL SIZE : " + threadPool.getPoolSize());
 				}catch(SocketException se) {
 					se.printStackTrace();

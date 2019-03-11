@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.vklp.http.config.Config;
+import com.vklp.http.handlers.FormHandler;
+import com.vklp.http.handlers.RequestHandler;
+import com.vklp.http.handlers.RequestHandlerBuilder;
 import com.vklp.ws.services.AbstractService;
 import com.vklp.ws.services.HTTPService;
 import com.vklp.ws.services.JMXService;
@@ -19,8 +23,15 @@ public class WebServer extends AbstractService{
 	
     private final List<HTTPService> basicServices;
     
+    private final Config conf;
+    
+    private final RequestHandler handler;
+    
     public WebServer() {
-    	basicServices = createBasicServices();
+    	this.conf = Config.getInstance();
+    	this.handler = buildHandler();
+    	
+    	this.basicServices = createBasicServices();
     }
 
 
@@ -49,6 +60,13 @@ public class WebServer extends AbstractService{
 		
 	}
 	
+	private RequestHandler buildHandler() {
+		RequestHandlerBuilder builder = new RequestHandlerBuilder();
+		//customer handler can be registered
+		builder.addHandler("/form/result", new FormHandler());
+		return builder.build();
+	}
+	
 	private List<HTTPService> createBasicServices(){
         List<HTTPService> services = new ArrayList<HTTPService>();
         
@@ -56,10 +74,10 @@ public class WebServer extends AbstractService{
         services.add(new JMXService());
         
         //Socket service
-        services.add(new SocketService());
+        services.add(new SocketService(conf, handler));
         
         //SSL service
-        services.add(new SSLService());
+        services.add(new SSLService(conf, handler));
         
         //TODO: add web socket service
         services.add(new WebSocketService());

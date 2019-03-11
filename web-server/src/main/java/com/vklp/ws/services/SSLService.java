@@ -2,8 +2,8 @@ package com.vklp.ws.services;
 
 import org.apache.log4j.Logger;
 
-import com.vklp.http.config.ConfigService;
-import com.vklp.http.config.ConfigService.Configs;
+import com.vklp.http.config.Config;
+import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.server.SSLServer;
 
 public class SSLService extends AbstractService{
@@ -12,13 +12,10 @@ public class SSLService extends AbstractService{
 	
 	private final SSLServer server;
 	
-	public SSLService() {
+	
+	public SSLService(Config conf, RequestHandler handler) {
 		super("SSL-Service");
-		this.server = new SSLServer(this.conf.getInt(Configs.SSL_PORT.config()), 
-				this.conf.getInt(Configs.DEFAULT_THREADS.config()), 
-				this.conf.getInt(Configs.MAX_THREADS.config()), 
-				this.conf.getInt(Configs.SOCKET_BUFFER_SIZE.config()), 
-				this.conf.getStr(Configs.SERVER_NAME.config()));
+		this.server = new SSLServer(conf, handler);
 	}
 
 	@Override

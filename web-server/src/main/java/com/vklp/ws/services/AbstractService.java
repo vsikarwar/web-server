@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.log4j.Logger;
 
-import com.vklp.http.config.ConfigService;
+import com.vklp.http.config.Config;
 
 public abstract class AbstractService implements HTTPService{
 	
@@ -13,7 +13,6 @@ public abstract class AbstractService implements HTTPService{
     private final AtomicBoolean isStarted;
     private String type;
     
-	protected static final ConfigService conf = ConfigService.getInstance();
 
     public AbstractService() {
     	this.isStarted = new AtomicBoolean(false);

@@ -1,4 +1,4 @@
-package com.vklp.http.processors;
+package com.vklp.http.handlers;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,22 +7,27 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 
-import com.vklp.http.config.ConfigService;
-import com.vklp.http.config.ConfigService.Configs;
+import com.vklp.http.config.Config;
+import com.vklp.http.config.Config.Configs;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
 import com.vklp.http.message.response.HttpStatus;
-import com.vklp.http.redirects.Redirect;
-import com.vklp.http.redirects.RedirectService;
 
-public class AbstractProcessor implements Processor{
+public class AbstractHandler implements Handler{
+
+	public boolean canHandler(HttpRequest req, HttpResponse res) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	protected static Config config = Config.getInstance();
 	
-	protected static ConfigService config = ConfigService.getInstance();
-	protected static RedirectService redirects = RedirectService.getInstance();
+	private static final Logger logger = Logger.getLogger(AbstractHandler.class);
 	
-	public void process(HttpRequest req, HttpResponse res) {
+	public void handle(HttpRequest req, HttpResponse res) {
 		if(!req.getVersion().isValid()) {
 			invalidVersionError(res);
 			return;
@@ -34,23 +39,14 @@ public class AbstractProcessor implements Processor{
 			return;
 		}
 		
-		System.out.println("PATH : " + req.getUri());
-		
-		if(redirects.hasRedirects() && redirects.contains(req.getUri())) {
-			Redirect redirect = redirects.getRedirect(req.getUri());
-			if(redirect.getType().equals("301")) {
-				res.setStatus(HttpStatus.MOVED_PERMANENTLY);
-			}else {
-				res.setStatus(HttpStatus.MOVED_TEMPORARILY);
-			}
-			res.getHeaders().add(Headers.LOCATION.getName(), redirect.getDestination());
-			return;
-		}
+		logger.debug("Request PATH : " + req.getUri());
 		
 		if(req.getMethod().equals("GET")) {
 			doGet(req, res);
 		}else if(req.getMethod().equals("POST")) {
 			doPost(req, res);
+		}else if(req.getMethod().equals("HEAD")){
+			doHead(req, res);
 		}else {
 			unsupportedMethodError(res);
 		}
@@ -62,14 +58,11 @@ public class AbstractProcessor implements Processor{
 		connectionHeader(req, res);
 	}
 	
-	protected void doGet(HttpRequest req, HttpResponse res) {
-		//
-		
-	}
+	protected void doHead(HttpRequest req, HttpResponse res) {}
 	
-	protected void doPost(HttpRequest req, HttpResponse res) {
-		//unhandled request
-	}
+	protected void doGet(HttpRequest req, HttpResponse res) {}
+	
+	protected void doPost(HttpRequest req, HttpResponse res) {}
 	
 	private void connectionHeader(HttpRequest req, HttpResponse res) {
 		

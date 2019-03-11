@@ -2441,3 +2441,268 @@
 2019-03-11 18:40:35 ERROR AbstractSocketServer:78 - Shutting down socket server.
 2019-03-11 18:40:35 INFO  AbstractSocketServer:104 - Killing all active sessions.
 2019-03-11 18:40:35 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:25:16 INFO  WebServer:85 - Starting server .. 
+2019-03-12 00:26:18 INFO  WebServer:86 - Starting server .. 
+2019-03-12 00:26:18 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:26:18 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:26:18 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:18 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:18 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:26:18 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:18 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:26:18 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:18 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:26:18 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:18 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:26:18 INFO  WebServer:48 - Startup completed in 2 ms.
+2019-03-12 00:26:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:26:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:26:26 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:26:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:26:26 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:26:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:26:26 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:26:26 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:26:26 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:26:26 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:26:46 INFO  WebServer:86 - Starting server .. 
+2019-03-12 00:26:46 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:26:46 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:26:46 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:46 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:46 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:26:46 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:46 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:26:46 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:46 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:26:46 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:26:46 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:26:46 INFO  WebServer:48 - Startup completed in 2 ms.
+2019-03-12 00:26:50 DEBUG ServerSession:57 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:50295
+2019-03-12 00:26:50 DEBUG AbstractHandler:42 - Request PATH : /assets/blog-post-1.png
+2019-03-12 00:26:56 ERROR ServerSession:92 - Socket timeout exception occurred for 0
+2019-03-12 00:26:56 ERROR ServerSession:100 - Closing connection !!! 0
+2019-03-12 00:27:04 DEBUG ServerSession:57 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:50354
+2019-03-12 00:27:04 DEBUG ServerSession:57 - Active session : 1/2 connection from : /0:0:0:0:0:0:0:1:50355
+2019-03-12 00:27:04 ERROR ServerSession:100 - Closing connection !!! 0
+2019-03-12 00:27:04 DEBUG AbstractHandler:42 - Request PATH : /index.html
+2019-03-12 00:27:08 DEBUG ServerSession:57 - Active session : 1/1 connection from : /0:0:0:0:0:0:0:1:50378
+2019-03-12 00:27:08 DEBUG AbstractHandler:42 - Request PATH : /index.html
+2019-03-12 00:27:10 ERROR ServerSession:92 - Socket timeout exception occurred for 1
+2019-03-12 00:27:10 ERROR ServerSession:100 - Closing connection !!! 1
+2019-03-12 00:27:14 ERROR ServerSession:92 - Socket timeout exception occurred for 1
+2019-03-12 00:27:14 ERROR ServerSession:100 - Closing connection !!! 1
+2019-03-12 00:27:17 DEBUG ServerSession:57 - Active session : 2/1 connection from : /0:0:0:0:0:0:0:1:50417
+2019-03-12 00:27:17 DEBUG AbstractHandler:42 - Request PATH : /index.html
+2019-03-12 00:27:23 ERROR ServerSession:92 - Socket timeout exception occurred for 2
+2019-03-12 00:27:23 ERROR ServerSession:100 - Closing connection !!! 2
+2019-03-12 00:27:51 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:27:51 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:27:51 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:27:51 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:27:51 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:27:51 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:27:51 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:27:51 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:27:51 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:27:51 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:31:00 INFO  WebServer:86 - Starting server .. 
+2019-03-12 00:31:00 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:31:00 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:31:00 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:31:00 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:31:00 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:31:00 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:31:00 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:31:00 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:31:00 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:31:00 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:31:00 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:31:00 INFO  WebServer:48 - Startup completed in 1 ms.
+2019-03-12 00:31:08 DEBUG ServerSession:57 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:51536
+2019-03-12 00:31:08 DEBUG AbstractHandler:42 - Request PATH : /form.html
+2019-03-12 00:31:14 ERROR ServerSession:92 - Socket timeout exception occurred for 0
+2019-03-12 00:31:14 ERROR ServerSession:100 - Closing connection !!! 0
+2019-03-12 00:31:15 DEBUG ServerSession:57 - Active session : 1/1 connection from : /0:0:0:0:0:0:0:1:51566
+2019-03-12 00:31:15 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:31:15 ERROR ServerSession:100 - Closing connection !!! 1
+2019-03-12 00:31:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:31:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:31:26 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:31:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:31:26 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:31:26 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:31:26 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:31:26 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:31:26 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:31:26 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:32:22 INFO  WebServer:86 - Starting server .. 
+2019-03-12 00:32:22 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:32:22 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:32:22 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:22 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:22 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:32:22 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:22 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:32:22 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:22 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:32:22 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:22 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:32:22 INFO  WebServer:48 - Startup completed in 1 ms.
+2019-03-12 00:32:25 DEBUG ServerSession:57 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:51857
+2019-03-12 00:32:27 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:32:27 ERROR ServerSession:100 - Closing connection !!! 0
+2019-03-12 00:32:27 DEBUG ServerSession:57 - Active session : 1/2 connection from : /0:0:0:0:0:0:0:1:51867
+2019-03-12 00:32:27 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:32:27 ERROR ServerSession:100 - Closing connection !!! 1
+2019-03-12 00:32:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:31 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:32:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:31 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:32:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:31 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:32:31 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:32:31 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:32:31 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:32:44 INFO  WebServer:86 - Starting server .. 
+2019-03-12 00:32:44 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:32:44 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:32:44 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:44 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:44 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:32:44 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:44 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:32:44 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:44 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:32:44 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:32:44 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:32:44 INFO  WebServer:48 - Startup completed in 1 ms.
+2019-03-12 00:32:46 DEBUG ServerSession:57 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:51952
+2019-03-12 00:32:48 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:32:48 ERROR ServerSession:100 - Closing connection !!! 0
+2019-03-12 00:32:48 DEBUG ServerSession:57 - Active session : 1/2 connection from : /0:0:0:0:0:0:0:1:51958
+2019-03-12 00:32:48 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:32:48 ERROR ServerSession:100 - Closing connection !!! 1
+2019-03-12 00:32:56 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:56 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:56 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:32:56 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:56 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:32:56 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:32:56 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:32:56 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:32:56 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:32:56 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:49:58 INFO  WebServer:89 - Starting server .. 
+2019-03-12 00:49:58 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:49:58 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:49:58 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:49:58 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:49:58 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:49:58 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:49:58 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:49:58 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:49:58 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:49:58 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:49:58 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:49:58 INFO  WebServer:49 - Startup completed in 2 ms.
+2019-03-12 00:50:01 DEBUG ServerSession:55 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:56410
+2019-03-12 00:50:02 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:50:02 ERROR ServerSession:98 - Closing connection !!! 0
+2019-03-12 00:50:02 DEBUG ServerSession:55 - Active session : 1/2 connection from : /0:0:0:0:0:0:0:1:56420
+2019-03-12 00:50:02 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:50:02 ERROR ServerSession:98 - Closing connection !!! 1
+2019-03-12 00:50:47 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:50:47 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:50:47 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:50:47 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:50:47 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:50:47 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:50:47 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:50:47 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:50:47 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:50:47 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:50:50 INFO  WebServer:89 - Starting server .. 
+2019-03-12 00:50:50 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:50:50 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:50:50 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:50:50 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:50:50 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:50:50 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:50:50 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:50:50 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:50:50 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:50:50 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:50:50 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:50:50 INFO  WebServer:49 - Startup completed in 1 ms.
+2019-03-12 00:50:52 DEBUG ServerSession:55 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:56627
+2019-03-12 00:50:54 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:50:54 ERROR ServerSession:98 - Closing connection !!! 0
+2019-03-12 00:50:54 DEBUG ServerSession:55 - Active session : 1/2 connection from : /0:0:0:0:0:0:0:1:56638
+2019-03-12 00:50:54 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:50:54 ERROR ServerSession:98 - Closing connection !!! 1
+2019-03-12 00:52:00 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:52:00 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:52:00 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:52:00 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:52:00 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:52:00 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:52:00 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:52:00 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:52:00 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:52:00 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:56:12 INFO  WebServer:89 - Starting server .. 
+2019-03-12 00:56:12 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:56:12 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:56:12 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:12 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:12 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:56:12 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:12 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:56:12 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:12 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:56:12 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:12 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:56:12 INFO  WebServer:49 - Startup completed in 1 ms.
+2019-03-12 00:56:14 DEBUG ServerSession:55 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:57974
+2019-03-12 00:56:16 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:56:22 ERROR ServerSession:90 - Socket timeout exception occurred for 0
+2019-03-12 00:56:22 ERROR ServerSession:98 - Closing connection !!! 0
+2019-03-12 00:56:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:56:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:56:31 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:56:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:56:31 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:56:31 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:56:31 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:56:31 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:56:31 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:56:31 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.
+2019-03-12 00:56:43 INFO  WebServer:89 - Starting server .. 
+2019-03-12 00:56:43 DEBUG RedirectHandler:56 - Reading Redirect..  / index.html 301
+2019-03-12 00:56:43 DEBUG RedirectHandler:56 - Reading Redirect..  /abc xyz.html 302
+2019-03-12 00:56:43 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:43 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:43 INFO  JMXService:12 - Starting JMX service
+2019-03-12 00:56:43 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:43 INFO  SocketService:22 - Starting socket service
+2019-03-12 00:56:43 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:43 INFO  SSLService:23 - Starting ssl service
+2019-03-12 00:56:43 DEBUG AbstractService:35 - Starting the server!!
+2019-03-12 00:56:43 INFO  WebSocketService:12 - Starting WebSocketService
+2019-03-12 00:56:43 INFO  WebServer:49 - Startup completed in 2 ms.
+2019-03-12 00:56:46 DEBUG ServerSession:55 - Active session : 0/1 connection from : /0:0:0:0:0:0:0:1:58111
+2019-03-12 00:56:47 DEBUG AbstractHandler:42 - Request PATH : /form/result
+2019-03-12 00:56:53 ERROR ServerSession:90 - Socket timeout exception occurred for 0
+2019-03-12 00:56:53 ERROR ServerSession:98 - Closing connection !!! 0
+2019-03-12 00:57:10 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:57:10 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:57:10 INFO  WebSocketService:19 - Stopping websocket service
+2019-03-12 00:57:10 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:57:10 INFO  SSLService:29 - stopping ssl service
+2019-03-12 00:57:10 DEBUG AbstractService:41 - Stopping the server
+2019-03-12 00:57:10 INFO  SocketService:28 - Shutting down socket service
+2019-03-12 00:57:10 ERROR AbstractSocketServer:78 - Shutting down socket server.
+2019-03-12 00:57:10 INFO  AbstractSocketServer:104 - Killing all active sessions.
+2019-03-12 00:57:10 WARN  AbstractSocketServer:96 - Timed out waiting for threadpool to close.

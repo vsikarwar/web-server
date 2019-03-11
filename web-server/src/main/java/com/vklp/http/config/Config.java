@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class ConfigService{
+public class Config{
 	
 	public enum Configs {
 		
@@ -39,16 +39,16 @@ public class ConfigService{
 	
     private static final Map<String, String> configs = new HashMap<String, String>();
     
-    private static final ConfigService INSTANCE = new ConfigService();
-    
     private static final String CONFIG_PATH = "src/main/resources/conf/server.conf";
     
-    private ConfigService() {
-    	initConfigs();
+    private static final Config INSTANCE = new Config();
+    
+    public static Config getInstance() {
+    	return INSTANCE;
     }
     
-    public static ConfigService getInstance() {
-    	return INSTANCE;
+    private Config() {
+    	initConfigs();
     }
     
     private void initConfigs() {

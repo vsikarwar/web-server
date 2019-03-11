@@ -9,13 +9,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.request.RequestReader;
 import com.vklp.http.message.response.HttpResponse;
 import com.vklp.http.message.response.ResponseWriter;
-import com.vklp.http.processors.GenericProcessor;
-import com.vklp.http.processors.Processor;
 
 public class ServerSession implements Runnable{
 	
@@ -25,15 +24,17 @@ public class ServerSession implements Runnable{
     private final long sessionId;
     private final Socket socket;
     private volatile boolean isClosed = false;
+    private final RequestHandler handler;
     
     
     public ServerSession(Map<Long, ServerSession> activeSessions,
     							Socket socket,
-                                long id) {
+                                long id,
+                                RequestHandler handler) {
     	this.activeSessions = activeSessions;
         this.socket = socket;
         this.sessionId = id;
-    	
+    	this.handler = handler;
     }
     
     public Socket getSocket() {
@@ -65,8 +66,9 @@ public class ServerSession implements Runnable{
 				HttpRequest request = requestReader.readRequest();
 				
 				if(request != null) {
-					Processor processor = new GenericProcessor();
-					processor.process(request, response);
+					//Processor processor = new GenericProcessor();
+					//processor.process(request, response);
+					handler.handle(request, response);
 					
 					responseWriter.write(response);
 				}

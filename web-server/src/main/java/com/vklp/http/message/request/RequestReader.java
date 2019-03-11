@@ -55,6 +55,7 @@ public class RequestReader {
             body.append((char) c);
         }
         request.getContent().setContent(body.toString().getBytes());
+        request.getParams().putParamLine(body.toString());
 	}
 	
 	private boolean readRequestLine(BufferedReader in) throws SocketTimeoutException {
@@ -102,7 +103,7 @@ public class RequestReader {
 		if(pathStr.contains("?")) {
 			StringTokenizer tokenizer = new StringTokenizer(pathStr, "?");
 			path = tokenizer.nextToken();
-			request.getParams().putParamLine(tokenizer.nextToken());
+			request.getQueryParams().putParamLine(tokenizer.nextToken());
 		}
 		request.setUri(path);
 	}

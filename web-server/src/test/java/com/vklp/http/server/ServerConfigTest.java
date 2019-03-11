@@ -7,16 +7,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vklp.http.config.ConfigService;
-import com.vklp.http.config.ConfigService.Configs;
+import com.vklp.http.config.Config;
+import com.vklp.http.config.Config.Configs;
 
 public class ServerConfigTest {
 	
-	ConfigService config;
+	Config config;
 
 	@Before
 	public void setUp() throws Exception {
-		config = ConfigService.getInstance();
+		config = Config.getInstance();
 	}
 
 	@After

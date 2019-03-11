@@ -17,7 +17,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vklp.http.config.ConfigService;
+import com.vklp.http.config.Config;
 import com.vklp.ws.services.SocketService;
 
 public class HTTPGetOKTest {

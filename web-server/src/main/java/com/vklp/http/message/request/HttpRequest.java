@@ -7,12 +7,22 @@ public class HttpRequest extends HttpMessage{
 	
 	private String method;
 	private String uri;
-	private HttpQueryParams params;
+	private HttpParams queryParams;
+	private HttpParams params;
 	
 	public HttpRequest() {
-		params = new HttpQueryParams();
+		queryParams = new HttpParams();
+		params = new HttpParams();
 	}
 	
+	public HttpParams getParams() {
+		return params;
+	}
+
+	public void setParams(HttpParams params) {
+		this.params = params;
+	}
+
 	public String getMethod() {
 		return method;
 	}
@@ -25,11 +35,11 @@ public class HttpRequest extends HttpMessage{
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
-	public HttpQueryParams getParams() {
-		return params;
+	public HttpParams getQueryParams() {
+		return queryParams;
 	}
-	public void setParams(HttpQueryParams params) {
-		this.params = params;
+	public void setQueryParams(HttpParams params) {
+		this.queryParams = params;
 	}
 
 }

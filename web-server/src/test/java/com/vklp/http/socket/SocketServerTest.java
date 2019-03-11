@@ -4,14 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.vklp.http.config.ConfigService;
-import com.vklp.http.config.ConfigService.Configs;
+import com.vklp.http.config.Config;
+import com.vklp.http.config.Config.Configs;
 import com.vklp.http.server.SocketServer;
 
 public class SocketServerTest {
 	
 	SocketServer server;
-	ConfigService conf = ConfigService.getInstance();
+	Config conf = Config.getInstance();
 
 	@Before
 	public void setUp() throws Exception {

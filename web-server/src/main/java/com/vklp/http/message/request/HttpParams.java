@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class HttpQueryParams {
+public class HttpParams {
 	
 	private Map<String, String> params;
 	
@@ -28,7 +28,7 @@ public class HttpQueryParams {
         decoderPairs.put("%3F", "\\?");
     }
 	
-	public HttpQueryParams() {
+	public HttpParams() {
 		params = new HashMap<String, String>();
 	}
 	
