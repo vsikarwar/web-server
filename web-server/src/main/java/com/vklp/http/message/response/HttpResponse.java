@@ -25,7 +25,8 @@ public class HttpResponse extends HttpMessage{
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(this.getVersion().toString() + " " + this.getStatus().toString() + "\n");
-		sb.append(this.getHeaders() + "\n\n");
+		sb.append(this.getHeaders() + "\n");
+		sb.append("\r\n");
 		//sb.append(this.getContent().toString());
 		return sb.toString();
 	}

@@ -18,7 +18,7 @@ import com.vklp.http.message.response.HttpResponse;
 import com.vklp.http.message.response.HttpStatus;
 import com.vklp.http.redirects.Redirect;
 
-public class RedirectHandler extends AbstractHandler{
+public class RedirectHandler extends GETHandler{
 	
 	private static final Map<String, Redirect> redirects = new HashMap<String, Redirect>();
 	
@@ -69,9 +69,8 @@ public class RedirectHandler extends AbstractHandler{
 		
 	}
 
-	public boolean canHandler(HttpRequest req, HttpResponse res) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean canHandle(HttpRequest req, HttpResponse res) {
+		return this.hasRedirects() && this.contains(req.getUri());
 	}
 
 	public void doGet(HttpRequest req, HttpResponse res) {
@@ -82,7 +81,7 @@ public class RedirectHandler extends AbstractHandler{
 			}else {
 				res.setStatus(HttpStatus.MOVED_TEMPORARILY);
 			}
-			res.getHeaders().add(Headers.LOCATION.getName(), redirect.getDestination());
+			res.addHeader(Headers.LOCATION.getName(), redirect.getDestination());
 		}
 	}
 	

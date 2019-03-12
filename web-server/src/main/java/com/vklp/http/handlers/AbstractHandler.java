@@ -1,12 +1,9 @@
 package com.vklp.http.handlers;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Date;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.vklp.http.config.Config;
@@ -15,96 +12,120 @@ import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
 import com.vklp.http.message.response.HttpStatus;
+import com.vklp.http.storage.StorageService;
+import com.vklp.http.storage.StorageServiceFactory;
+import com.vklp.http.storage.StorageServiceFactory.StorageServices;
 
-public class AbstractHandler implements Handler{
+public abstract class AbstractHandler implements Handler{
 
 	public boolean canHandler(HttpRequest req, HttpResponse res) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	protected static Config config = Config.getInstance();
+	protected static StorageService fileService = StorageServiceFactory.getInstance().getStorageService(StorageServices.FILE_STORAGE);
 	
 	private static final Logger logger = Logger.getLogger(AbstractHandler.class);
 	
 	public void handle(HttpRequest req, HttpResponse res) {
 		if(!req.getVersion().isValid()) {
-			invalidVersionError(res);
+			handleError(res, HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
 			return;
 		}
 		res.setVersion(req.getVersion());
 		
 		if(req.getMethod() == null) {
-			unsupportedMethodError(res);
+			handleError(res, HttpStatus.METHOD_NOT_ALLOWED);
 			return;
 		}
 		
 		logger.debug("Request PATH : " + req.getUri());
 		
-		if(req.getMethod().equals("GET")) {
-			doGet(req, res);
-		}else if(req.getMethod().equals("POST")) {
-			doPost(req, res);
-		}else if(req.getMethod().equals("HEAD")){
-			doHead(req, res);
-		}else {
-			unsupportedMethodError(res);
+		try {
+			if(req.getMethod().equals("GET")) {
+				doGet(req, res);
+			}else if(req.getMethod().equals("POST")) {
+				doPost(req, res);
+			}else if(req.getMethod().equals("HEAD")){
+				doHead(req, res);
+			}else {
+				handleError(res, HttpStatus.METHOD_NOT_ALLOWED);
+			}
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+			handleError(res, HttpStatus.NOT_FOUND);
+		}catch(Exception e) {
+			e.printStackTrace();
+			handleError(res, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		
-		res.getHeaders().add(Headers.DATE.getName(), new Date().toString());
-		res.getHeaders().add(Headers.SERVER.getName(), config.getStr(Configs.SERVER_NAME.config()));
+		res.addHeader(Headers.DATE, new Date().toString());
+		res.addHeader(Headers.SERVER, config.getStr(Configs.SERVER_NAME.config()));
 		
 		connectionHeader(req, res);
+		cacheControl(req, res);
 	}
 	
-	protected void doHead(HttpRequest req, HttpResponse res) {}
+	abstract void doHead(HttpRequest req, HttpResponse res)  throws Exception;
 	
-	protected void doGet(HttpRequest req, HttpResponse res) {}
+	abstract void doGet(HttpRequest req, HttpResponse res)  throws Exception;
 	
-	protected void doPost(HttpRequest req, HttpResponse res) {}
+	abstract void doPost(HttpRequest req, HttpResponse res)  throws Exception;
 	
 	private void connectionHeader(HttpRequest req, HttpResponse res) {
 		
-		String connection = req.getHeaders().get(Headers.CONNECTION.getName());
+		String connection = req.getHeader(Headers.CONNECTION.getName());
 		String version = req.getVersion().toString();
 		
 		if((version.equals("HTTP/1.0") && null != connection && connection.equals("keep-alive"))||
 				version.equals("HTTP/1.1") && null != connection && !connection.equals("close")) {
-			res.getHeaders().add(Headers.CONNECTION.getName(), "keep-alive");
+			res.addHeader(Headers.CONNECTION.getName(), "keep-alive");
 			String timeout = "timeout=" + config.getStr(Configs.KEEP_ALIVE_TIMEOUT.config());
-			res.getHeaders().add(Headers.KEEP_ALIVE.getName(), timeout);
+			String max = "max=" + config.getStr(Configs.KEEP_ALIVE_MAX.config());
+			res.addHeader(Headers.KEEP_ALIVE.getName(), timeout + "," + max);
 		}else {
-			res.getHeaders().add(Headers.CONNECTION.getName(), "close");
+			res.addHeader(Headers.CONNECTION.getName(), "close");
 		}
 		
 	}
 	
-	private void invalidVersionError(HttpResponse res) {
-		res.setStatus(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
-		fileContent(res, config.getStr(Configs.ERROR_500.config()));
-	}
-	
-	private void unsupportedMethodError(HttpResponse res) {
-		res.setStatus(HttpStatus.METHOD_NOT_ALLOWED);
-		fileContent(res, config.getStr(Configs.ERROR_400.config()));
-	}
-	
-	protected void fileNotFound(HttpResponse res) {
-		res.setStatus(HttpStatus.NOT_FOUND);
-		fileContent(res, config.getStr(Configs.ERROR_400.config()));
-	}
-
-	protected void fileContent(HttpResponse res, String filePath) {
-		try {
-			String docRoot = config.getStr(Configs.DOC_ROOT.config());
-			byte[] content = FileUtils.readFileToByteArray(new File(docRoot, filePath));
-			res.getContent().setContent(content);
-			res.getHeaders().add(Headers.CONTENT_TYPE.getName(), Files.probeContentType(Paths.get(filePath)));
-			res.getHeaders().add(Headers.CONTENT_LENGTH.getName(), String.valueOf(content.length));
-		} catch (IOException e) {
-			e.printStackTrace();
+	private void cacheControl(HttpRequest req, HttpResponse res) {
+		if(req.getUri().startsWith("/assets") && req.getMethod().equals("GET")) {
+			try {
+				String checksum = fileService.getChecksum(req.getUri());
+				res.addHeader(Headers.CACHE_CONTROL, "max-age=120");
+				res.addHeader(Headers.ETAG, checksum);
+			} catch (FileNotFoundException e) {
+				handleError(res, HttpStatus.NOT_FOUND);
+				e.printStackTrace();
+			} catch (IOException e) {
+				handleError(res, HttpStatus.INTERNAL_SERVER_ERROR);
+				e.printStackTrace();
+			}
 		}
 	}
-
+	
+	protected void handleError(HttpResponse res, HttpStatus status) {
+		
+		String content = "<html><title>" + 
+							status.code() +
+							"</title><body><h1>" +
+							status.description( )+
+							"</h1></body></html>";
+		
+		
+		
+		res.clearHeaders();
+		
+		res.setContent(content.getBytes());
+		res.setContentType("text/html");
+		res.setContentLength(content.length());
+		res.addHeader(Headers.DATE, new Date().toString());
+		res.addHeader(Headers.SERVER, config.getStr(Configs.SERVER_NAME.config()));
+		res.addHeader(Headers.CONNECTION, "close");
+		
+		res.setStatus(status);
+		
+	}
+	
 }

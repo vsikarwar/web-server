@@ -12,11 +12,15 @@ public class HttpHeaders{
 		CONNECTION("Connection"),
 		CONTENT_LENGTH("Content-Length"),
 		KEEP_ALIVE("Keep-Alive"),
-		CONTENT_TYPE("Content-type"),
+		CONTENT_TYPE("Content-Type"),
 		DATE("Date"),
 		SERVER("Server"),
 		ACCEPT("Accept"),
-		LOCATION("Location");
+		LOCATION("Location"),
+		CACHE_CONTROL("Cache-Control"),
+		ETAG("Etag"),
+		IF_NONE_MATCH("If-None-Match");
+		
 		
 		private final String name;
 		
@@ -51,6 +55,10 @@ public class HttpHeaders{
 	public HttpHeaders(String name) {
 		this();
 		this.headers.put(name, new ArrayList<String>());
+	}
+	
+	public void clear() {
+		this.headers.clear();
 	}
 	
 	public HttpHeaders(String name, String value) {

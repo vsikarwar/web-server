@@ -23,7 +23,8 @@ public class Config{
 		DOC_ROOT("doc.root"),
 		ERROR_400("error.400"),
 		ERROR_500("error.500"),
-		KEEP_ALIVE_TIMEOUT("keep-alive.timeout");
+		KEEP_ALIVE_TIMEOUT("keep-alive.timeout"),
+		KEEP_ALIVE_MAX("keep-alive.max");
 		
 		private String conf;
 		

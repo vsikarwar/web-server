@@ -27,8 +27,8 @@ public class ResponseWriter {
 			System.out.println("Response : " + res.toString());
 			osw.write(res.toString());
 			osw.flush();
-			if(res.getContent().getContent() != null) {
-				os.write(res.getContent().getContent());
+			if(res.getContent() != null) {
+				os.write(res.getContent());
 				os.flush();
 			}
 			

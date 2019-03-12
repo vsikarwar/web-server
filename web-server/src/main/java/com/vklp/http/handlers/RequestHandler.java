@@ -1,6 +1,8 @@
 package com.vklp.http.handlers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.vklp.http.message.request.HttpRequest;
@@ -8,49 +10,74 @@ import com.vklp.http.message.response.HttpResponse;
 
 public class RequestHandler{
 	
-	private final Map<String, Handler> methodHandler;
-	private final Map<String, Handler> pathHandler;
-	private final RedirectHandler redirectHandler;
+	private final Map<String, Handler> defaultHandlers;
+	private final Map<String, Handler> customHandlers;
+	private final List<Handler> requestHandlers;
+	private final ErrorHandler errorHandler;
 	
 	public RequestHandler() {
-		methodHandler = new HashMap<String, Handler>();
-		pathHandler = new HashMap<String, Handler>();
-		redirectHandler = new RedirectHandler();
+		defaultHandlers = new HashMap<String, Handler>();
+		customHandlers = new HashMap<String, Handler>();
+		requestHandlers = new ArrayList<Handler>();
+		
+		errorHandler = new ErrorHandler();
+		
+		//request handlers
+		requestHandlers.add(new RedirectHandler());
+		requestHandlers.add(new ETagHandler());
 		
 		//default handlers
-		methodHandler.put("GET", new GETHandler());
-		methodHandler.put("POST", new POSTHandler());
-		methodHandler.put("HEAD", new HEADHandler());
+		defaultHandlers.put("GET", new GETHandler());
+		defaultHandlers.put("POST", new POSTHandler());
+		defaultHandlers.put("HEAD", new HEADHandler());
 	}
 	
 	public void put(String path, Handler handler) {
-		pathHandler.put(path, handler);
+		customHandlers.put(path, handler);
 	}
 	
 	public void setDefaultGetHandler(Handler handler) {
-		methodHandler.put("GET", handler);
+		defaultHandlers.put("GET", handler);
 	}
 	
 	public void setDefaultPostHandler(Handler handler) {
-		methodHandler.put("POST", handler);
+		defaultHandlers.put("POST", handler);
 	}
 	
 	public void setDefaultHeadHandler(Handler handler) {
-		methodHandler.put("HEAD", handler);
+		defaultHandlers.put("HEAD", handler);
 	}
 
 	public void handle(HttpRequest req, HttpResponse res) {
 		
-		if(redirectHandler.hasRedirects() && redirectHandler.contains(req.getUri())) {
-			redirectHandler.handle(req, res);
-		}else if(pathHandler.containsKey(req.getUri())) {
-			Handler handler = pathHandler.get(req.getUri());
-			handler.handle(req, res);
-		}else if(methodHandler.containsKey(req.getMethod())) {
-			methodHandler.get(req.getMethod()).handle(req, res);
-		}else {
-			//can not handle
+		boolean isRequestHandled = false;
+		
+		for(Handler handler : requestHandlers) {
+			if(handler.canHandler(req, res)) {
+				handler.handle(req, res);
+				isRequestHandled = true;
+				break;
+			}
 		}
+		
+		//see if custom handler is registered for this path
+		if(!isRequestHandled && customHandlers.containsKey(req.getUri())) {
+			Handler handler = customHandlers.get(req.getUri());
+			handler.handle(req, res);
+			isRequestHandled = true;
+		}
+		
+		//use default handlers to handle the request
+		if(!isRequestHandled && defaultHandlers.containsKey(req.getMethod())) {
+			defaultHandlers.get(req.getMethod()).handle(req, res);
+			isRequestHandled=true;
+		}
+		
+		//error condition, can not handle the request
+		if(!isRequestHandled) {
+			errorHandler.handle(req, res);
+		}
+		
 	}
-
+	
 }

@@ -7,10 +7,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.vklp.http.config.Config;
-import com.vklp.http.handlers.FormHandler;
 import com.vklp.http.handlers.HandlerRegistry;
 import com.vklp.http.handlers.RequestHandler;
-import com.vklp.http.handlers.RequestHandlerBuilder;
+import com.vklp.http.storage.StorageServiceFactory;
 import com.vklp.ws.services.AbstractService;
 import com.vklp.ws.services.HTTPService;
 import com.vklp.ws.services.JMXService;
@@ -28,9 +27,12 @@ public class WebServer extends AbstractService{
     
     private final RequestHandler handler;
     
+    private final StorageServiceFactory storageServiceFactory;
+    
     public WebServer() {
     	this.conf = Config.getInstance();
     	this.handler = HandlerRegistry.getInstance().getHandler();
+    	this.storageServiceFactory = StorageServiceFactory.getInstance();
     	
     	this.basicServices = createBasicServices();
     }

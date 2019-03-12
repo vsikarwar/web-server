@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
 import java.util.StringTokenizer;
 
-import com.vklp.http.message.HttpHeaders;
 import com.vklp.http.message.HttpVersion;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.version.VersionHandler;
@@ -32,10 +31,10 @@ public class RequestReader {
 		readHeaders(inputReader);
 
 		if(request.getMethod().equals("POST")) {
-			String contentLength = request.getHeaders().get(Headers.CONTENT_LENGTH.getName());
+			String contentLength = request.getHeader(Headers.CONTENT_LENGTH.getName());
 			if(null!= contentLength) {
 				Integer cl = Integer.valueOf(contentLength);
-				request.getContent().setContentLength(cl);
+				request.setContentLength(cl);
 				readPayload(inputReader, cl);
 			}
 		}
@@ -54,7 +53,7 @@ public class RequestReader {
 			}
             body.append((char) c);
         }
-        request.getContent().setContent(body.toString().getBytes());
+        request.setContent(body.toString().getBytes());
         request.getParams().putParamLine(body.toString());
 	}
 	
@@ -109,12 +108,10 @@ public class RequestReader {
 	}
 	
 	private void readHeaders(BufferedReader in) {
-		HttpHeaders headers = request.getHeaders();
-		
 		try {
 			String line = in.readLine();
 			while(line != null && !line.trim().isEmpty()) {
-				headers.put(line);
+				request.addHeader(line);
 				line = in.readLine();
 			}
 		}catch(IOException e) {

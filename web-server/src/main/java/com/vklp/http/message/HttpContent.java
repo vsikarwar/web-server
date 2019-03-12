@@ -3,7 +3,7 @@ package com.vklp.http.message;
 public class HttpContent {
 	
 	private byte[] content;
-	private int contentLength;
+	private long contentLength;
 	private String contentType;
 	
 	public HttpContent() {
@@ -22,11 +22,11 @@ public class HttpContent {
 		this.content = content;
 	}
 
-	public int getContentLength() {
+	public long getContentLength() {
 		return contentLength;
 	}
 
-	public void setContentLength(int contentLength) {
+	public void setContentLength(long contentLength) {
 		this.contentLength = contentLength;
 	}
 

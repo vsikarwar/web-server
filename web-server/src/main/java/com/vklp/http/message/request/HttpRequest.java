@@ -18,6 +18,14 @@ public class HttpRequest extends HttpMessage{
 	public HttpParams getParams() {
 		return params;
 	}
+	
+	public String getParam(String name) {
+		return this.params.getValue(name);
+	}
+	
+	public String getQueryParam(String name) {
+		return this.queryParams.getValue(name);
+	}
 
 	public void setParams(HttpParams params) {
 		this.params = params;
