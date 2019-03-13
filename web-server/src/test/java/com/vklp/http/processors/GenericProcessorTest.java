@@ -48,9 +48,7 @@ public class GenericProcessorTest {
 		
 		HttpResponse response = new HttpResponse();
 		
-		Processor processor = new GenericProcessor();
-		processor.process(request, response);
-		
+		Requesthn
 		/*** Response
 		 
 				"HTTP/1.1 200 OK\n" + 

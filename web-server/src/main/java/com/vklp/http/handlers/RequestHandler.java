@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vklp.http.handlers.basic.ETagHandler;
+import com.vklp.http.handlers.basic.ErrorHandler;
+import com.vklp.http.handlers.basic.RedirectHandler;
+import com.vklp.http.handlers.core.GETHandler;
+import com.vklp.http.handlers.core.HEADHandler;
+import com.vklp.http.handlers.core.POSTHandler;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
 

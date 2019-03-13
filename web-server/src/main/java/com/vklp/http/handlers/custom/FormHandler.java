@@ -1,5 +1,6 @@
-package com.vklp.http.handlers;
+package com.vklp.http.handlers.custom;
 
+import com.vklp.http.handlers.core.POSTHandler;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
@@ -10,9 +11,6 @@ public class FormHandler extends POSTHandler{
 	public void doPost(HttpRequest req, HttpResponse res) throws Exception{
 		String firstName = req.getParam("first_name");
 		String lastName = req.getParam("last_name");
-		
-		System.out.println("first name " + firstName);
-		System.out.println("last name " + lastName);
 		
 		String path = "form-result.html";
 		

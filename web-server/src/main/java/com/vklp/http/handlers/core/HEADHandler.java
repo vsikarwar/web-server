@@ -1,5 +1,6 @@
-package com.vklp.http.handlers;
+package com.vklp.http.handlers.core;
 
+import com.vklp.http.handlers.AbstractHandler;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
 import com.vklp.http.message.response.HttpStatus;
@@ -14,13 +15,13 @@ public class HEADHandler extends AbstractHandler{
 	}
 
 	@Override
-	void doGet(HttpRequest req, HttpResponse res) {
+	public void doGet(HttpRequest req, HttpResponse res) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	void doPost(HttpRequest req, HttpResponse res) {
+	public void doPost(HttpRequest req, HttpResponse res) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -66,8 +66,6 @@ public class ServerSession implements Runnable{
 				HttpRequest request = requestReader.readRequest();
 				
 				if(request != null) {
-					//Processor processor = new GenericProcessor();
-					//processor.process(request, response);
 					handler.handle(request, response);
 					
 					responseWriter.write(response);

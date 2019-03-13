@@ -1,8 +1,9 @@
-package com.vklp.http.handlers;
+package com.vklp.http.handlers.basic;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.vklp.http.handlers.core.GETHandler;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;
@@ -15,11 +16,11 @@ public class ETagHandler extends GETHandler{
 	}
 	
 	public boolean canHandle(HttpRequest req, HttpResponse res) {
-		return req.getHeader(Headers.ETAG) != null;
+		return req.containsHeader(Headers.IF_NONE_MATCH) && req.getUri().startsWith("/assets");
 	}
 
 	private void notModified(HttpRequest req, HttpResponse res) {
-		if(req.getHeader(Headers.IF_NONE_MATCH)!=null) {
+		if(req.containsHeader(Headers.IF_NONE_MATCH)) {
 			try {
 				String checksum = fileService.getChecksum(req.getUri());
 				if(checksum.equals(req.getHeader(Headers.IF_NONE_MATCH))) {

@@ -1,6 +1,7 @@
 package com.vklp.http.message;
 
 import java.util.List;
+import java.util.Set;
 
 import com.vklp.http.message.HttpHeaders.Headers;
 
@@ -25,8 +26,16 @@ public class HttpMessage {
 		this.content.setContent(content);
 	}
 	
+	public Set<String> getHeaderNameSet() {
+		return this.headers.getHeaderNameSet();
+	}
+	
 	public void clearHeaders() {
 		this.headers.clear();
+	}
+	
+	public int getHeaderSize() {
+		return this.headers.size();
 	}
 	
 	public void setContent(String content) {
@@ -81,6 +90,14 @@ public class HttpMessage {
 	
 	public void setVersion(HttpVersion version) {
 		this.version = version;
+	}
+	
+	public boolean containsHeader(Headers header) {
+		return this.headers.contains(header.getName());
+	}
+	
+	public boolean containsHeader(String header) {
+		return this.headers.contains(header);
 	}
 	
 

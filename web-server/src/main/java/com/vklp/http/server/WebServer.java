@@ -55,7 +55,7 @@ public class WebServer extends AbstractService{
 
 	@Override
 	protected void stopInnerService() {
-		System.out.println("Stopping inner services");
+		logger.info("Stopping inner services");
 		
 		for(int i = basicServices.size()-1; i>0; i--) {
 			basicServices.get(i).stop();

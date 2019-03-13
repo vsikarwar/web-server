@@ -1,5 +1,7 @@
 package com.vklp.http.handlers;
 
+import com.vklp.http.handlers.custom.FormHandler;
+
 public class HandlerRegistry {
 	
 	private static final HandlerRegistry registry = new HandlerRegistry();

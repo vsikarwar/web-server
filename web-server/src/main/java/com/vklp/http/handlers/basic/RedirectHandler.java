@@ -1,4 +1,4 @@
-package com.vklp.http.handlers;
+package com.vklp.http.handlers.basic;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.vklp.http.handlers.core.GETHandler;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.message.request.HttpRequest;
 import com.vklp.http.message.response.HttpResponse;

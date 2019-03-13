@@ -6,8 +6,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,7 +27,7 @@ import com.vklp.http.config.Config;
 import com.vklp.http.handlers.RequestHandler;
 import com.vklp.ws.services.SocketService;
 
-public class HTTPGetOKTest {
+public class HTTPKeepAliveTest {
 	
 	SocketService service;
 	
@@ -33,31 +37,46 @@ public class HTTPGetOKTest {
 
 	@Before
 	public void setUp() {
-		try {
-			service = new SocketService(config, handler);
-			service.start();
-		}catch(Exception e) {
-			
-		}
-	}
+		service = new SocketService(config, handler);
+		service.start();
+}
 	
 	@After
-	public void tearDown()  {
+	public void tearDown() throws SocketException {
 			//Thread.sleep(2000);
-			service.stop();
+		thrown.expect(SocketException.class);
+		service.stop();
 	}
 	
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
+
 	
 	@Test(expected = IOException.class)
 	public void testSocketServiceGet() throws ClientProtocolException, IOException {
-		String getUrl = "http://localhost:8000/index.html";
+		URL url = new URL("http://localhost:8000/index.html");
+		URLConnection uc = url.openConnection();
+		uc.getOutputStream()
+		uc.setRequestProperty("Connection", "keep-alive");
+		uc.connect();
+		
+		BufferedReader reader = new BufferedReader( 
+		          new InputStreamReader(uc.getInputStream()));
+		
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = reader.readLine()) != null) {
+			response.append(inputLine);
+		}
+		reader.close();
+		
+		//sendGETOK("http://localhost:8000/index.html");
 		
 		thrown.expect(ClientProtocolException.class);
 		thrown.expect(IOException.class);
+		thrown.expect(SocketException.class);
 		
-		sendGETOK(getUrl);
 	}
 	
 	
@@ -73,29 +92,52 @@ public class HTTPGetOKTest {
 		return content;
 	}
 	
+	/* keep-alive is not enabled for version http1.0
+	 * if header does not contain Connection: keep-alive then connection will not remain open and second request should fail.
+	 */
 	private static void sendGETOK(String getUrl) throws ClientProtocolException, IOException  {
 		
 			CloseableHttpClient httpClient = HttpClients.createDefault();
 			HttpGet httpGet = new HttpGet(getUrl);
 			httpGet.addHeader("User-Agent", USER_AGENT);
-			CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+			httpGet.setProtocolVersion(HttpVersion.HTTP_1_1);
 			
+			CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 			assertEquals(200, httpResponse.getStatusLine().getStatusCode());
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					httpResponse.getEntity().getContent()));
-	
+			
+			
 			String inputLine;
 			StringBuffer response = new StringBuffer();
 	
 			while ((inputLine = reader.readLine()) != null) {
 				response.append(inputLine);
 			}
+			
+			for(int i = 0; i<10; i++) {
+				System.out.println("*****requesting : " + i);
+				httpResponse = httpClient.execute(httpGet);
+				assertEquals(200, httpResponse.getStatusLine().getStatusCode());
+				httpResponse.
+				reader = new BufferedReader(new InputStreamReader(
+						httpResponse.getEntity().getContent()));
+				inputLine = "";
+				response = new StringBuffer();
+		
+				while ((inputLine = reader.readLine()) != null) {
+					response.append(inputLine);
+				}
+				
+				System.out.println(response.toString());
+			}
+			
 			reader.close();
+			
 	
 			// print result
-			System.out.println(response.toString());
-			assertEquals(readFile("./content/index.html"), response.toString());
+			//assertEquals(readFile("./content/index.html"), response.toString());
 			httpClient.close();
 	}
 

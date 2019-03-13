@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HttpHeaders{
 
@@ -113,11 +114,23 @@ public class HttpHeaders{
 			return null;
 	}
 	
+	public int size() {
+		return this.headers.size();
+	}
+	
+	public Set<String> getHeaderNameSet() {
+		return this.headers.keySet();
+	}
+	
 	public List<String> getAll(String name) {
 		return this.headers.get(name);
 	}
 	
 	public String toString() {
 		return this.headers.toString();
+	}
+	
+	public boolean contains(String key) {
+		return this.headers.containsKey(key);
 	}
 }

@@ -5,12 +5,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import org.apache.log4j.Logger;
+
 import com.vklp.http.config.Config;
 import com.vklp.http.config.Config.Configs;
 import com.vklp.http.handlers.RequestHandler;
 import com.vklp.http.session.ServerSession;
+import com.vklp.ws.services.SocketService;
 
 public class SocketServer extends AbstractSocketServer{
+	
+	private static final Logger logger = Logger.getLogger(SocketService.class);
 	
 	private final RequestHandler handler;
 	
@@ -26,7 +31,7 @@ public class SocketServer extends AbstractSocketServer{
 	}
 	
 	public void run() {
-		System.out.println("Starting socket server on port " + port);
+		logger.debug("Starting socket server on port " + port);
 		
 		try {
 			serverSocket = new ServerSocket();
@@ -35,17 +40,17 @@ public class SocketServer extends AbstractSocketServer{
 			serverSocket.setReceiveBufferSize(this.socketBufferSize);
 			
 			while(!isInterrupted() && !serverSocket.isClosed()) {
-				System.out.println("Socket accepting connections : ");
+				logger.debug("Socket accepting connections : ");
 				try {
 					final Socket socket = serverSocket.accept();
-					System.out.println("Socket accepting connections : " + socket.getRemoteSocketAddress());
+					logger.debug("Socket accepting connections : " + socket.getRemoteSocketAddress());
 					//configure socket
 					long sessionId = this.sessionIdSequence.getAndIncrement();
 					this.threadPool.execute(new ServerSession(activeSessions,
 	                        socket,
 	                        sessionId,
 	                        handler));
-					System.out.println("POOL SIZE : " + threadPool.getPoolSize());
+					logger.debug("POOL SIZE : " + threadPool.getPoolSize());
 				}catch(SocketException se) {
 					se.printStackTrace();
 				}

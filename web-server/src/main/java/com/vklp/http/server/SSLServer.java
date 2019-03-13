@@ -60,17 +60,17 @@ public class SSLServer extends AbstractSocketServer{
 			serverSocket.setReceiveBufferSize(this.socketBufferSize);
 			
 			while(!isInterrupted() && !serverSocket.isClosed()) {
-				System.out.println("secure accepting connections : ");
+				logger.debug("secure accepting connections : ");
 				try {
 					final Socket socket = serverSocket.accept();
-					System.out.println("Socket accepting connections : " + socket.getRemoteSocketAddress());
+					logger.debug("Socket accepting connections : " + socket.getRemoteSocketAddress());
 					//configure socket
 					long sessionId = this.sessionIdSequence.getAndIncrement();
 					this.threadPool.execute(new ServerSession(activeSessions,
 	                        socket,
 	                        sessionId,
 	                        handler));
-					System.out.println("POOL SIZE : " + threadPool.getPoolSize());
+					logger.debug("POOL SIZE : " + threadPool.getPoolSize());
 				}catch(SocketException se) {
 					se.printStackTrace();
 				}

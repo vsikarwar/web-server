@@ -31,9 +31,7 @@ public class FileStorageService implements StorageService{
 		if(!file.exists()) {
 			throw new FileNotFoundException(key);
 		}
-		System.out.println(key);
 		byte[] content = FileUtils.readFileToByteArray(file);
-		System.out.println(new String(content));
 		return content;
 	}
 	

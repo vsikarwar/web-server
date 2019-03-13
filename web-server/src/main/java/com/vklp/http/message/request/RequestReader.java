@@ -7,11 +7,15 @@ import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import com.vklp.http.message.HttpVersion;
 import com.vklp.http.message.HttpHeaders.Headers;
 import com.vklp.http.version.VersionHandler;
 
 public class RequestReader {
+	
+	private static final Logger logger = Logger.getLogger(RequestReader.class);
 	
 	private InputStream inputStream;
 	private HttpRequest request;
@@ -74,19 +78,19 @@ public class RequestReader {
 		StringTokenizer st = new StringTokenizer(requestLine);
 		
 		if(!st.hasMoreTokens()) {
-			System.out.println("BAD request");
+			logger.debug("BAD request");
 		}
 		
 		request.setMethod(st.nextToken().toUpperCase());
 		
 		if(!st.hasMoreTokens()) {
-			System.out.println("BAD request");
+			logger.debug("BAD request");
 		}
 		
 		uriHandler(st.nextToken());
 		
 		if(!st.hasMoreTokens()) {
-			System.out.println("No version");
+			logger.debug("No version");
 		}
 		
 		String version = st.nextToken();

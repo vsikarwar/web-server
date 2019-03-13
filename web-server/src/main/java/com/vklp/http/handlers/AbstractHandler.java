@@ -64,13 +64,14 @@ public abstract class AbstractHandler implements Handler{
 		
 		connectionHeader(req, res);
 		cacheControl(req, res);
+		
 	}
 	
-	abstract void doHead(HttpRequest req, HttpResponse res)  throws Exception;
+	public abstract void doHead(HttpRequest req, HttpResponse res)  throws Exception;
 	
-	abstract void doGet(HttpRequest req, HttpResponse res)  throws Exception;
+	public abstract void doGet(HttpRequest req, HttpResponse res)  throws Exception;
 	
-	abstract void doPost(HttpRequest req, HttpResponse res)  throws Exception;
+	public abstract void doPost(HttpRequest req, HttpResponse res)  throws Exception;
 	
 	private void connectionHeader(HttpRequest req, HttpResponse res) {
 		

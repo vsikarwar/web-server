@@ -6,7 +6,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.log4j.Logger;
+
 public class ResponseWriter {
+	
+	private static final Logger logger = Logger.getLogger(ResponseWriter.class);
 	
 	private OutputStream outputStream;
 	private BufferedOutputStream os;
@@ -24,9 +28,10 @@ public class ResponseWriter {
 	
 	public void write(HttpResponse res) {
 		try {
-			System.out.println("Response : " + res.toString());
+			logger.debug("Response : " + res.toString());
 			osw.write(res.toString());
 			osw.flush();
+			logger.debug(new String(res.getContent()));
 			if(res.getContent() != null) {
 				os.write(res.getContent());
 				os.flush();
