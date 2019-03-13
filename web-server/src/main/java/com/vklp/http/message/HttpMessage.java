@@ -64,7 +64,7 @@ public class HttpMessage {
 		return this.headers.getAll(name);
 	}
 	
-	protected HttpHeaders getHeaders() {
+	public HttpHeaders getHeaders() {
 		return this.headers;
 	}
 	

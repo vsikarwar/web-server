@@ -76,13 +76,14 @@ public class RequestReaderTest {
 				"From: viks@adobe.com\n" + 
 				"Content-Length: 32\n" + 
 				"Content-Type: application/x-www-form-urlencoded";
-		
+		System.out.println(request.getHeaders().toString());
 		assertEquals(request.getHeaders().toString(), expectedHeaders);
 		
 		String expectedPayload = "home=Cosby&favorite+flavor=flies";
 		assertEquals(request.getContent().toString(), expectedPayload);
 		
-		assertEquals(request.getContent().getContentLength(), 32);
+		
+		assertEquals(request.getContent().length, 32);
 		
 		
 	}
