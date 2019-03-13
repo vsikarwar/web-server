@@ -30,7 +30,8 @@ Server can be custom configured by changing default configurations at `vi src/ma
 
 Configurations are maintained in json format
 #### Default Configurations
-```{
+```
+{
         "port" : "8000",
         "ssl.port" : "1234",
         "default.threads" : "40",
@@ -42,7 +43,8 @@ Configurations are maintained in json format
         "error.500" : "/errors/500.html",
         "keep-alive.timeout" : 3000,
         "keep-alive.max": 1000
-}```
+}
+```
 
 ## Content
 Default doc-root directory configured for server is `/content` directory. Files present under doc-root directory can be served from this server.
@@ -82,3 +84,13 @@ Once the custom handler is ready, it should be registered to `HandlerRegistry` e
 `WebServer`: this is the main server class. This creates and init basic core services and start them.
 
 Each core service should extends `AbstractService` class which interns implement `HTTPService`, so that each service will have start and stop behaviour.
+
+`SocketService` is responsible to start `SocketServer` which maintains thread pool executor. ThreadPool executor executes worker thread which is 'ServerSession'.
+
+`ServerSession` reads the input request and pass it to `RequestReader` which parse the request and generate `HTTPRequest`.
+
+This `HTTPRequest` is then passed to handler. Handler based on the configuration in `RequestHandler` and `HandlerRegistry` handles the request, which involved validating protocol version, methods, processing headers and calling the relevant custom/default handler to generate the response. Handler returns `HTTPResponse`.
+
+`HTTPResponse` then passed to `ResponseWriter` to send it to client.
+
+`HTTPResponse` and `HTTPMessage` are both part of `HTTPMessage`.
