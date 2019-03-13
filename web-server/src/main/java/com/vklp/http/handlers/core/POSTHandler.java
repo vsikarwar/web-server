@@ -8,7 +8,7 @@ import com.vklp.http.message.response.HttpResponse;
 
 public class POSTHandler extends AbstractHandler{
 	
-	private static final Logger logger = Logger.getLogger(POSTHandler.class)
+	private static final Logger logger = Logger.getLogger(POSTHandler.class);
 
 	public void doPost(HttpRequest req, HttpResponse res)  throws Exception{
 		// TODO Auto-generated method stub

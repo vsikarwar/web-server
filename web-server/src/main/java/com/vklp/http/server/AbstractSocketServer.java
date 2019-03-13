@@ -48,7 +48,7 @@ public class AbstractSocketServer extends Thread{
                 threadFactory,
                 rejectedExecutionHandler);
         
-        this.sessionIdSequence = new AtomicLong(0);
+        this.sessionIdSequence = new AtomicLong(1);
         this.activeSessions = new ConcurrentHashMap<Long, ServerSession>();
         this.serverName = serverName;
     }

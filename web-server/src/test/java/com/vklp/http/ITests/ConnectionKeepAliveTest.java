@@ -1,38 +1,69 @@
 package com.vklp.http.ITests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.vklp.http.config.Config;
 import com.vklp.http.handlers.RequestHandler;
+import com.vklp.http.utils.TestUtils;
 import com.vklp.ws.services.SocketService;
 
 public class ConnectionKeepAliveTest {
 	
-	private Config config = Config.getInstance();
-	private RequestHandler handler = new RequestHandler();
-	private SocketService service;
+	private static Config config = Config.getInstance();
+	private static RequestHandler handler = new RequestHandler();
+	private static SocketService service;
 	
-	@Before
-	public void setUp() {
+	private Socket socket;
+	private InputStream input;
+	private OutputStream output;
+	private BufferedReader reader;
+	
+	@BeforeClass
+	public static void setUp() {
 			service = new SocketService(config, handler);
 			service.start();
 	}
 	
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		service.stop();
+	}
+	
+	@Before
+	public void setUpTestData() {
+		this.socket = getSocket();
+		this.input = getInputStream(socket);
+		this.output = getOutputStream(socket);
+		this.reader = new BufferedReader(new InputStreamReader(input));
+	}
+	
+	@After
+	public void tearDownTestData() {
+		try {
+			this.reader.close();
+			this.output.close();
+			this.input.close();
+			this.socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private Socket getSocket() {
@@ -71,88 +102,196 @@ public class ConnectionKeepAliveTest {
 		return in;
 	}
 	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
+	
 	@Test
-	public void testKeepAlive() {
-		String hostname = "localhost";
-		int port = 8000;
-		String path = "/index.html";
+	public void testHTTP1_0() {
+		String request ="GET /index.html HTTP/1.0\n" +
+				"Host: localhost:8000\n" +
+				"User-Agent: Simple Http Client\n" +
+				"Accept: text/html\n" + 
+				"Accept-Language: en-US\n";
 		
-		Socket socket = getSocket();
+		String expectedResponse = "HTTP/1.0 200 OK\n" + 
+	    		"Server: WS-0.1\n" + 
+	    		"Connection: close\n" + 
+	    		"Content-Length: 74\n" + 
+	    		"Date: (.*)\n" + 
+	    		"Content-Type: text/html\n" + 
+	    		"\n" + 
+	    		"<html><title>viks</title><body><h1> Hi! FROM WEB SERVER</h1></body></html>";
 		
-		OutputStream output = getOutputStream(socket);
-        InputStream input = getInputStream(socket);
+        int requestProcessed = 0;
         
+        for(int i = 1; i< 3; i++) {
+        	TestUtils.write(request, output);
+        	String response = null;
+			try {
+				response = TestUtils.getResponse(reader);
+				if(response == null || response.trim().isEmpty() || response.trim().equals("null")) {
+					break;
+				}
+			} catch (IOException e) {
+				break;
+			}
+    		assertTrue(response.matches(expectedResponse));
+    		requestProcessed++;
+        }
+        assertEquals(requestProcessed, 1);
+	}
+	
+	@Test
+	public void testHTTP1_0ConnectionKeepAlive() {
+		String request ="GET /index.html HTTP/1.0\n" +
+				"Host: localhost:8000\n" +
+				"User-Agent: Simple Http Client\n" +
+				"Accept: text/html\n" + 
+				"Accept-Language: en-US\n"
+				+ "Connection: keep-alive\n";
+		
+		String expectedResponse = "HTTP/1.0 200 OK\n" + 
+				"Keep-Alive: timeout=3000,max=1000\n" +
+	    		"Server: WS-0.1\n" + 
+	    		"Connection: keep-alive\n" + 
+	    		"Content-Length: 74\n" + 
+	    		"Date: (.*)\n" + 
+	    		"Content-Type: text/html\n" + 
+	    		"\n" + 
+	    		"<html><title>viks</title><body><h1> Hi! FROM WEB SERVER</h1></body></html>";
+		
+        int requestProcessed = 0;
+        
+        for(int i = 1; i< 3; i++) {
+        	TestUtils.write(request, output);
+        	String response = null;
+			try {
+				response = TestUtils.getResponse(reader);
+				if(response == null || response.trim().isEmpty() || response.trim().equals("null")) {
+					break;
+				}
+			} catch (IOException e) {
+				break;
+			}
+    		assertTrue(response.matches(expectedResponse));
+    		requestProcessed++;
+        }
+        assertEquals(requestProcessed, 2);
+	}
+	
+	@Test
+	public void testHTTP1_1() {
+		String request ="GET /index.html HTTP/1.1\n" +
+				"Host: localhost:8000\n" +
+				"User-Agent: Simple Http Client\n" +
+				"Accept: text/html\n" + 
+				"Accept-Language: en-US\n";
+		
+		String expectedResponse = "HTTP/1.1 200 OK\n" + 
+	    		"Keep-Alive: timeout=3000,max=1000\n" + 
+	    		"Server: WS-0.1\n" + 
+	    		"Connection: keep-alive\n" + 
+	    		"Content-Length: 74\n" + 
+	    		"Date: (.*)\n" + 
+	    		"Content-Type: text/html\n" + 
+	    		"\n" + 
+	    		"<html><title>viks</title><body><h1> Hi! FROM WEB SERVER</h1></body></html>";
+		
+        int requestProcessed = 0;
         
         for(int i = 1; i< 10; i++) {
-        	BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        	System.out.println("******PROESSING REQUEST : " + i);
-        	write(hostname, port, path, output);
-        	
-        	String status = read(reader);
-        	int length = readHeaders(status);
-    		String payload = readPayload(reader, length);
-        }
-		
-	}
-	
-	private void write(String hostname, int port, String path, OutputStream output) {
-		PrintWriter writer = new PrintWriter(output, true);
- 
-		writer.println("GET " + path + " HTTP/1.1");
-		writer.println("Host: " + hostname + ":" + port);
-		writer.println("User-Agent: Simple Http Client");
-		writer.println("Accept: text/html");
-		writer.println("Accept-Language: en-US");
-		writer.println("Connection: keep-alive");
-		writer.println();
-	}
-	
-	private String read(BufferedReader reader) {
-		StringBuilder builder = new StringBuilder();
-		try {
-			String requestLine=reader.readLine();
-			builder.append(requestLine + "\n");
-			while(requestLine != null && !requestLine.trim().isEmpty()) {
-				requestLine = reader.readLine();
-				builder.append(requestLine + "\n");
-			}
-		} catch(SocketTimeoutException ste) {
-			ste.printStackTrace();;
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return builder.toString();
-	}
-	
-	private int readHeaders(String header) {
-		int length = 0;
-		
-		String[] lines = header.split("\n");
-		for(String line : lines) {
-			if (line.startsWith("Content-Length: ")) { // get the
-	            // content-length
-				int index = line.indexOf(':') + 1;
-				String len = line.substring(index).trim();
-				length = Integer.parseInt(len);
-			}
-		}
-		
-		return length;
-	}
-	
-	private String readPayload(BufferedReader in, int contentLength) {
-		StringBuilder body = new StringBuilder();
-        int c = 0;
-        for (int i = 0; i < contentLength; i++) {
-            try {
-				c = in.read();
+        	TestUtils.write(request, output);
+        	String response = null;
+			try {
+				response = TestUtils.getResponse(reader);
+				if(response == null || response.trim().isEmpty() || response.trim().equals("null")) {
+					break;
+				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				break;
 			}
-            body.append((char) c);
+    		assertTrue(response.matches(expectedResponse));
+    		requestProcessed++;
         }
-        return body.toString();
+        assertEquals(requestProcessed, 9);
 	}
+	
+	@Test
+	public void testHTTP1_1KeepAlive() {
+		String request ="GET /index.html HTTP/1.1\n" +
+				"Host: localhost:8000\n" +
+				"User-Agent: Simple Http Client\n" +
+				"Accept: text/html\n" + 
+				"Accept-Language: en-US\n" +
+				"Connection: keep-alive\n";
+		
+		String expectedResponse = "HTTP/1.1 200 OK\n" + 
+	    		"Keep-Alive: timeout=3000,max=1000\n" + 
+	    		"Server: WS-0.1\n" + 
+	    		"Connection: keep-alive\n" + 
+	    		"Content-Length: 74\n" + 
+	    		"Date: (.*)\n" + 
+	    		"Content-Type: text/html\n" + 
+	    		"\n" + 
+	    		"<html><title>viks</title><body><h1> Hi! FROM WEB SERVER</h1></body></html>";
+		
+        int requestProcessed = 0;
+        
+        for(int i = 1; i< 10; i++) {
+        	TestUtils.write(request, output);
+        	String response = null;
+			try {
+				response = TestUtils.getResponse(reader);
+				if(response == null || response.trim().isEmpty() || response.trim().equals("null")) {
+					break;
+				}
+			} catch (IOException e) {
+				break;
+			}
+    		assertTrue(response.matches(expectedResponse));
+    		requestProcessed++;
+        }
+        assertEquals(requestProcessed, 9);
+	}
+	
+	@Test
+	public void testHTTP1_1_Connection_Close() {
+		String request ="GET /index.html HTTP/1.1\n" +
+				"Host: localhost:8000\n" +
+				"User-Agent: Simple Http Client\n" +
+				"Accept: text/html\n" + 
+				"Accept-Language: en-US\n" +
+				"Connection: close\n";
+		
+		String expectedResponse = "HTTP/1.1 200 OK\n" + 
+				"Server: WS-0.1\n" + 
+				"Connection: close\n" + 
+				"Content-Length: 74\n" + 
+				"Date: (.*)\n" + 
+				"Content-Type: text/html\n" + 
+				"\n" + 
+				"<html><title>viks</title><body><h1> Hi! FROM WEB SERVER</h1></body></html>";
+		
+        int requestProcessed = 0;
+        for(int i = 1; i< 3; i++) {
+        	TestUtils.write(request, output);
+        	String response=null;
+			try {
+				response = TestUtils.getResponse(reader);
+				if(response == null || response.trim().isEmpty() || response.trim().equals("null")) {
+					break;
+				}
+			} catch (IOException e) {
+				break;
+			}
+			
+    		assertTrue(response.matches(expectedResponse));
+    		requestProcessed++;
+        }
+        assertEquals(requestProcessed, 1);
+	}
+
+	
 
 }

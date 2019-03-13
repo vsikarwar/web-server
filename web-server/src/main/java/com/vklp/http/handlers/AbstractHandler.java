@@ -79,7 +79,8 @@ public abstract class AbstractHandler implements Handler{
 		String version = req.getVersion().toString();
 		
 		if((version.equals("HTTP/1.0") && null != connection && connection.equals("keep-alive"))||
-				version.equals("HTTP/1.1") && null != connection && !connection.equals("close")) {
+				version.equals("HTTP/1.1") && null != connection && !connection.equals("close") ||
+				version.equals("HTTP/1.1") && null == connection) {
 			res.addHeader(Headers.CONNECTION.getName(), "keep-alive");
 			String timeout = "timeout=" + config.getStr(Configs.KEEP_ALIVE_TIMEOUT.config());
 			String max = "max=" + config.getStr(Configs.KEEP_ALIVE_MAX.config());

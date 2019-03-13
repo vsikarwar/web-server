@@ -73,8 +73,9 @@ public class ServerSession implements Runnable{
 				
 				//If we are sending Connection header as keep-alive means we need to keep the socket open
 				//if we send connection header as close means we can close the socket
-				if(null != response.getHeader(Headers.CONNECTION.getName()) &&
-						("keep-alive").equals(response.getHeader(Headers.CONNECTION.getName()))) {
+				if(null != response.getHeader(Headers.CONNECTION) &&
+						("keep-alive").equals(response.getHeader(Headers.CONNECTION)) && 
+						response.containsHeader(Headers.KEEP_ALIVE)) {
 					socket.setKeepAlive(true);
 					socket.setSoTimeout(6000);
 				}else {
