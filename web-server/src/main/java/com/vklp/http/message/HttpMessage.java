@@ -1,6 +1,5 @@
 package com.vklp.http.message;
 
-import java.util.List;
 import java.util.Set;
 
 import com.vklp.http.message.HttpHeaders.Headers;
@@ -60,8 +59,8 @@ public class HttpMessage {
 		return this.headers.get(header.getName());
 	}
 	
-	public List<String> getHeaders(String name) {
-		return this.headers.getAll(name);
+	public Set<String> getHeadersNameSet() {
+		return this.headers.getHeaderNameSet();
 	}
 	
 	public HttpHeaders getHeaders() {

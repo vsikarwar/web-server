@@ -47,9 +47,11 @@ public class RequestReaderTest {
 				"Upgrade-Insecure-Requests: 1\n" + 
 				"Connection: keep-alive\n" + 
 				"User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36\n" + 
-				"Host: localhost8080\n" + 
+				"Host:  localhost8080\n" + 
 				"Accept-Encoding: gzip, deflate, br\n" + 
 				"Accept-Language: en-US,en;q=0.9";
+		
+		System.out.println(request.getHeaders().toString());
 		
 		assertEquals(request.getHeaders().toString(), expectedHeaders);
 		
@@ -80,8 +82,7 @@ public class RequestReaderTest {
 		assertEquals(request.getHeaders().toString(), expectedHeaders);
 		
 		String expectedPayload = "home=Cosby&favorite+flavor=flies";
-		assertEquals(request.getContent().toString(), expectedPayload);
-		
+		assertEquals(new String(request.getContent()), expectedPayload);
 		
 		assertEquals(request.getContent().length, 32);
 		

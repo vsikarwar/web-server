@@ -1,9 +1,6 @@
 package com.vklp.http.message;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,28 +31,10 @@ public class HttpHeaders{
 		}
 	}
 
-	class HeaderMap extends HashMap<String, List<String>>{
-		private static final long serialVersionUID = 1L;
-
-		@Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            for(Object key: this.keySet()) {
-                builder.append(key.toString() + ": " + String.join(",", this.get(key)) + "\n");
-            }
-            return builder.toString().trim();
-        }
-	};
-	
-	private Map<String, List<String>> headers;
+	private Map<String, String> headers;
 	
 	public HttpHeaders() {
-		this.headers = new HeaderMap();
-	}
-	
-	public HttpHeaders(String name) {
-		this();
-		this.headers.put(name, new ArrayList<String>());
+		this.headers = new HashMap<String, String>();
 	}
 	
 	public void clear() {
@@ -63,24 +42,11 @@ public class HttpHeaders{
 	}
 	
 	public HttpHeaders(String name, String value) {
-		this(name);
-		this.headers.get(name).add(value);
-	}
-	
-	public HttpHeaders(String name, String[] values) {
-		this(name);
-		Collections.addAll(this.headers.get(name), values);
-	}
-	
-	public void add(String name) {
-		if(!this.headers.containsKey(name)) {
-			this.headers.put(name, new ArrayList<String>());
-		}
+		this.headers.put(name,  value);
 	}
 	
 	public void add(String name, String value) {
-		this.add(name);
-		this.headers.get(name).add(value);
+		this.headers.put(name,  value);
 	}
 	
 	public void put(String headerLine) {
@@ -88,30 +54,24 @@ public class HttpHeaders{
 		String key = items[0];
 		String value = "";
 		if(items.length == 2) {
-			value = items[1];
+			value = items[1].trim();
 		}else {
 			for(int i = 1; i<items.length; i++) {
 				value += items[i];
 			}
 		}
-		String[] values = value.trim().split(",");
-		add(key, values);
+		//String[] values = value.trim().split(",");
+		add(key, value);
 	}
 	
-	public void add(String name, String[] values) {
-		this.add(name);
-		Collections.addAll(this.headers.get(name), values);
-	}
 	
-	public void remove(String name, String value) {
-		this.headers.get(name).remove(value);
+	
+	public void remove(String name) {
+		this.headers.remove(name);
 	}
 	
 	public String get(String name) {
-		if(this.headers.containsKey(name))
-			return this.headers.get(name).get(0);
-		else
-			return null;
+		return this.headers.get(name);
 	}
 	
 	public int size() {
@@ -122,12 +82,12 @@ public class HttpHeaders{
 		return this.headers.keySet();
 	}
 	
-	public List<String> getAll(String name) {
-		return this.headers.get(name);
-	}
-	
 	public String toString() {
-		return this.headers.toString();
+		StringBuilder sb = new StringBuilder();
+		for(String key : this.headers.keySet()) {
+			sb.append(key + ": " + this.headers.get(key) + "\n");
+		}
+		return sb.toString().trim();
 	}
 	
 	public boolean contains(String key) {
