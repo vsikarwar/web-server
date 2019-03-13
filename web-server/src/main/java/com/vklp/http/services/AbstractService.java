@@ -1,4 +1,4 @@
-package com.vklp.ws.services;
+package com.vklp.http.services;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

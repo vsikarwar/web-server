@@ -10,8 +10,8 @@ import org.apache.log4j.Logger;
 import com.vklp.http.config.Config;
 import com.vklp.http.config.Config.Configs;
 import com.vklp.http.handlers.RequestHandler;
+import com.vklp.http.services.SocketService;
 import com.vklp.http.session.ServerSession;
-import com.vklp.ws.services.SocketService;
 
 public class SocketServer extends AbstractSocketServer{
 	

@@ -21,8 +21,8 @@ import org.junit.rules.ExpectedException;
 
 import com.vklp.http.config.Config;
 import com.vklp.http.handlers.RequestHandler;
+import com.vklp.http.services.SocketService;
 import com.vklp.http.utils.TestUtils;
-import com.vklp.ws.services.SocketService;
 
 public class ConnectionKeepAliveTest {
 	

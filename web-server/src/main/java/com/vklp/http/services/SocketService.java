@@ -1,4 +1,4 @@
-package com.vklp.ws.services;
+package com.vklp.http.services;
 
 import org.apache.log4j.Logger;
 

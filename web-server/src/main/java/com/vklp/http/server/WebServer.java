@@ -9,13 +9,13 @@ import org.apache.log4j.Logger;
 import com.vklp.http.config.Config;
 import com.vklp.http.handlers.HandlerRegistry;
 import com.vklp.http.handlers.RequestHandler;
+import com.vklp.http.services.AbstractService;
+import com.vklp.http.services.HTTPService;
+import com.vklp.http.services.JMXService;
+import com.vklp.http.services.SSLService;
+import com.vklp.http.services.SocketService;
+import com.vklp.http.services.WebSocketService;
 import com.vklp.http.storage.StorageServiceFactory;
-import com.vklp.ws.services.AbstractService;
-import com.vklp.ws.services.HTTPService;
-import com.vklp.ws.services.JMXService;
-import com.vklp.ws.services.SSLService;
-import com.vklp.ws.services.SocketService;
-import com.vklp.ws.services.WebSocketService;
 
 public class WebServer extends AbstractService{
 	
