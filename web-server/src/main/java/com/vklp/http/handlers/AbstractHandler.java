@@ -41,6 +41,12 @@ public abstract class AbstractHandler implements Handler{
 		
 		logger.debug("Request PATH : " + req.getUri());
 		
+		connectionHeader(req, res);
+		cacheControl(req, res);
+		
+		res.addHeader(Headers.DATE, new Date().toString());
+		res.addHeader(Headers.SERVER, config.getStr(Configs.SERVER_NAME.config()));
+		
 		try {
 			if(req.getMethod().equals("GET")) {
 				doGet(req, res);
@@ -58,12 +64,6 @@ public abstract class AbstractHandler implements Handler{
 			e.printStackTrace();
 			handleError(res, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		res.addHeader(Headers.DATE, new Date().toString());
-		res.addHeader(Headers.SERVER, config.getStr(Configs.SERVER_NAME.config()));
-		
-		connectionHeader(req, res);
-		cacheControl(req, res);
 		
 	}
 	

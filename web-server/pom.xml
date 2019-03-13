@@ -72,7 +72,7 @@
                 <addClasspath>true</addClasspath>
                 <classpathPrefix>libs/</classpathPrefix>
                 <mainClass>
-                    com.viks.http.server.MainServer
+                    com.vklp.http.server.WebServer
                 </mainClass>
             </manifest>
         </archive>

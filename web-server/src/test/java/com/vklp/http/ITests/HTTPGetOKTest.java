@@ -43,19 +43,18 @@ public class HTTPGetOKTest {
 	
 	@After
 	public void tearDown()  {
-			//Thread.sleep(2000);
 			service.stop();
 	}
 	
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 	
-	@Test(expected = IOException.class)
+	@Test
 	public void testSocketServiceGet() throws ClientProtocolException, IOException {
 		String getUrl = "http://localhost:8000/index.html";
 		
-		thrown.expect(ClientProtocolException.class);
-		thrown.expect(IOException.class);
+		//thrown.expect(ClientProtocolException.class);
+		//thrown.expect(IOException.class);
 		
 		sendGETOK(getUrl);
 	}
