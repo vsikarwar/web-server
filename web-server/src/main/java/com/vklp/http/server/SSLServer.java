@@ -1,6 +1,6 @@
 package com.vklp.http.server;
 
-import java.io.File;
+import java.io.FileOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.security.KeyStore;
@@ -42,7 +42,10 @@ public class SSLServer extends AbstractSocketServer{
 
 		try {
 			
-			final KeyStore keyStore = KeyStore.getInstance(new File("viks-ws-keystore"), password);
+			final KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			FileOutputStream fos = new FileOutputStream("viks-ws-keystore");
+			keyStore.store(fos , password);
+			//final KeyStore keyStore = KeyStore.getInstance(new File("viks-ws-keystore"), password);
 
 			final TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			trustManagerFactory.init(keyStore);
