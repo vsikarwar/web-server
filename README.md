@@ -14,7 +14,13 @@ A simple file based web server written in Java.
 ## Build
 To build the server run maven clean install goal.
 
-`mvn clean install`
+Clone the git repository
+
+go to dir `web-server/web-server/`
+
+execute `mvn clean install`
+
+to run without test cases execute `mvn clean install -DskipTests`
 
 This will generate the package in /target directory.
 
