@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -107,6 +108,7 @@ public class ConnectionKeepAliveTest {
 	
 	
 	@Test
+	@Ignore
 	public void testHTTP1_0() {
 		String request ="GET /index.html HTTP/1.0\n" +
 				"Host: localhost:8000\n" +
@@ -143,6 +145,7 @@ public class ConnectionKeepAliveTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testHTTP1_0ConnectionKeepAlive() {
 		String request ="GET /index.html HTTP/1.0\n" +
 				"Host: localhost:8000\n" +
@@ -181,6 +184,7 @@ public class ConnectionKeepAliveTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testHTTP1_1() {
 		String request ="GET /index.html HTTP/1.1\n" +
 				"Host: localhost:8000\n" +
@@ -218,6 +222,7 @@ public class ConnectionKeepAliveTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testHTTP1_1KeepAlive() {
 		String request ="GET /index.html HTTP/1.1\n" +
 				"Host: localhost:8000\n" +
@@ -256,6 +261,7 @@ public class ConnectionKeepAliveTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testHTTP1_1_Connection_Close() {
 		String request ="GET /index.html HTTP/1.1\n" +
 				"Host: localhost:8000\n" +

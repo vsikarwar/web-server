@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.vklp.http.config.Config;
@@ -76,6 +77,7 @@ public class OpenConnectionKeepAliveTest {
 	
 	
 	@Test
+	@Ignore
 	public void openConnectionsWithKeepAlive() {
 		String request ="GET /index.html HTTP/1.1\n" +
 				"Host: localhost:8000\n" +
