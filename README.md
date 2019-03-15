@@ -29,11 +29,10 @@ To run the server execute the following command.
 
 `java -jar target/web-server-0.0.1-SNAPSHOT.jar`
 
-This will start the web-server on default 8000 port and SSL Server on 1234 port.
+This will start the web-server on default 8000 port.
 
 ## Default Pages
 http://localhost:8000/index.html
-https://localhost:1234/index.html
 
 ## Configurations
 Server can be custom configured by changing default configurations at `vi src/main/resources/conf/server.conf`
